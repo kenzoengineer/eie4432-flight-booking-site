@@ -3,11 +3,25 @@
 @tailwind utilities;
 
 body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
 }
 
+#root {
+   
+}
+
+#outlet-content {
+    height: -webkit-fill-available;
+    overflow-y: auto;
+}
+
+.App {
+    max-height: 100vh;
+}
+
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }

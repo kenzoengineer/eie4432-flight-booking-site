@@ -39,7 +39,7 @@ const SignupForm = [
 
 const Signup = () => {
   return (
-    <div className="flex flex-col justify-center items-center py-5 h-[95vh]">
+    <div className="flex flex-col justify-center items-center py-5 h-[90vh]">
       <h1 className="text-4xl mb-5 font-bold">Create an Account With Us.</h1>
       <Form
         fields={SignupForm}

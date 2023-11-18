@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../components/Button";
 import Filter from "../components/Filter";
 
-const FLIGHT_DATA = [
+let FLIGHT_DATA = [
     {
         dest: "HKG->YYZ",
         date: "11-29-2023",
@@ -31,6 +31,8 @@ const FLIGHT_DATA = [
         id: "3",
     },
 ];
+// crude way to create more data
+FLIGHT_DATA = [...FLIGHT_DATA, ...FLIGHT_DATA, ...FLIGHT_DATA];
 
 const FILTER_DATA = [
     {
@@ -64,20 +66,22 @@ const Flight = ({ dest, date, time, duration, stops, price, id }) => {
 };
 
 const Flights = () => {
-    const [flightData, setFlightData] = useState(FLIGHT_DATA);
+    const [flightData] = useState(FLIGHT_DATA);
     const [filteredFlightData, setFilteredFlightData] = useState(flightData);
 
     const filterFlightData = (filters) => {
         console.log(filters);
         setFilteredFlightData(
-            flightData.filter((x) => x.dest.includes(filters.Destination))
+            flightData.filter((x) =>
+                x.dest.includes(filters.Destination.toUpperCase())
+            )
         );
     };
 
     return (
         <div className="px-96">
-            <h1 className="text-5xl font-bold">Flights.</h1>
-            <div className="mt-5">
+            <h1 className="my-5 text-5xl font-bold">Flights.</h1>
+            <div className="">
                 <Filter filters={FILTER_DATA} filterFn={filterFlightData} />
             </div>
             {filteredFlightData.map((x) => {
