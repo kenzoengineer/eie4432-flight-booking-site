@@ -4,11 +4,13 @@ import Form from "../components/Form";
 const LoginForm = [
   {
     label: "Username",
+    span: true,
     type: "text",
     required: true,
   },
   {
     label: "Password",
+    span: true,
     type: "password",
     required: true,
   },

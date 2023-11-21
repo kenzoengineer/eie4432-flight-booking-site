@@ -1,6 +1,6 @@
-const FormInput = ({ label, type, required }) => {
+const FormInput = ({ label, type, required, span }) => {
   return (
-    <div className="flex flex-col mb-3 w-[100%]">
+    <div className={`flex flex-col mb-3 w-[100%] col-span-1 ${span && "lg:col-span-2"}`}>
       <label for={label}>
         {label}
         {required && <span className="text-red-600">*</span>}
@@ -24,19 +24,19 @@ const Form = ({ fields, cta, large, onSubmit, children }) => {
     <div className="flex flex-col bg-gray-100 p-5 rounded-md">
     <form
       onSubmit={onSubmit}
-      className={`flex flex-col items-center ${
+      className={`grid gap-x-1 lg:grid-cols-2 ${
         large ? "w-96" : "w-48"
       }`}
     >
       {fields.map((x) => {
         return (
-          <FormInput label={x.label} type={x.type} required={x.required} />
+          <FormInput label={x.label} type={x.type} required={x.required} span={x.span} />
         );
       })}
       <input
         type="submit"
         value={cta}
-        className="cursor-pointer bg-black text-white w-full rounded-sm p-1"
+        className="cursor-pointer bg-black text-white w-full rounded-sm p-1 col-span-2"
       ></input>
     </form>
     {children}

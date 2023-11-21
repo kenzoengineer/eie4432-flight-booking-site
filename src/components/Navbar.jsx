@@ -26,6 +26,8 @@ const Navbar = () => {
             <NavElement href="flights">Flights</NavElement>
             <NavElement href="login">Login</NavElement>
             <NavElement href="signup">Sign up</NavElement>
+            <NavElement href="payment">Payment</NavElement>
+            <NavElement href="booking/1">Booking</NavElement>
             <NavElement href="">
                 <span className="text-sm">
                 <Button text={"Log Out"} onClick={() => console.log("Logged Out")} secondary></Button>

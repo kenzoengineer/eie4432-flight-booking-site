@@ -20,6 +20,9 @@ body {
     max-height: 100vh;
 }
 
+.selected-seat {
+    fill: #c6ffc6!important;
+}
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

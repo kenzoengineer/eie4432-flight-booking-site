@@ -8,6 +8,8 @@ import ErrorPage from "./components/Error-page";
 import Login from "./routes/Login";
 import Signup from "./routes/Signup";
 import Flights from "./routes/Flights";
+import Payment from "./routes/Payment";
+import Booking from "./routes/Booking";
 
 const router = createBrowserRouter([{
     path: "/",
@@ -23,6 +25,12 @@ const router = createBrowserRouter([{
         },{
             path: "/flights",
             element: <Flights/>,
+        },{
+            path: "/payment",
+            element: <Payment/>,
+        },{
+            path: "/booking/:id",
+            element: <Booking/>,
         },
     ],
 },]);
