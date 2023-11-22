@@ -27,6 +27,8 @@
     - [Log Schema](#log-schema)
     - [GET\_ALL\_LOGS](#get_all_logs)
 
+# ERD
+![ERD](ERD.png)
 
 # Users:
 
