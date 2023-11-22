@@ -1,8 +1,9 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import BorderedPane from "../components/BorderedPane";
 import Container from "../components/Container";
 import { useEffect, useState } from "react";
-import { GET_FLIGHT_DATA, GET_ALL_SEAT_DATA } from "../js/endpoints";
+import { GET_FLIGHT_DATA, GET_FLIGHT_SEAT_DATA } from "../js/endpoints";
+import Button from "../components/Button";
 
 const SEAT_DIAMETER = 50;
 const SEAT_RADIUS = SEAT_DIAMETER / 2;
@@ -83,6 +84,7 @@ const SeatMap = ({ flightData, seatData, changeSelectedSeat }) => {
             );
             seatElements.push(
                 <Seat
+                    key={`${row}${col}`}
                     x={SEAT_RADIUS + SEAT_DIAMETER * (row - 1)}
                     y={
                         SEAT_RADIUS +
@@ -136,7 +138,7 @@ const Booking = () => {
             return FAKE_FLIGHT_DATA;
         };
         const fetchSeatData = () => {
-            // return await fetch(GET_FLIGHT_DATA(id))
+            // return await fetch(GET_FLIGHT_SEAT_DATA(id))
             return FAKE_SEAT_DATA;
         };
         setFlightData(fetchFlightData);
@@ -144,8 +146,7 @@ const Booking = () => {
     }, []);
 
     return (
-        <Container>
-            <h1 className="my-5 text-5xl font-bold">Payment.</h1>
+        <Container title={"Booking"}>
             <BorderedPane>
                 <div>
                     <p>Selecting seats for:</p>
@@ -164,6 +165,11 @@ const Booking = () => {
                 <div className="text-5xl text-white bg-black mx-2 px-2 -skew-x-12">{selectedSeat.idx === -1 ? "--" : selectedSeat.label}</div>
                 <p>For:</p>
                 <div className="text-5xl text-white bg-black mx-2 px-2 -skew-x-12">{"HKD "}{selectedSeat.idx === -1 ? "--" : seatData[selectedSeat.idx].price}</div>
+            </div>
+            <div className="flex justify-center mb-5">
+                <div className={`${selectedSeat.idx === -1 && "cursor-not-allowed"}`}>
+                    <Button href={`/payment/${id}/${selectedSeat.idx}`} text={"Book"} secondary={selectedSeat.idx === -1} disabled={selectedSeat.idx === -1}/>
+                </div>
             </div>
         </Container>
     );

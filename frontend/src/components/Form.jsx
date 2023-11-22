@@ -1,7 +1,10 @@
-const FormInput = ({ label, type, required, span }) => {
+const FormInput = ({ label, type, required, span, value }) => {
+    if (type === "datetime-local") {
+        console.log(value.toISOString());
+    }
   return (
     <div className={`flex flex-col mb-3 w-[100%] col-span-1 ${span && "lg:col-span-2"}`}>
-      <label for={label}>
+      <label htmlFor={label}>
         {label}
         {required && <span className="text-red-600">*</span>}
         {":"}
@@ -11,6 +14,7 @@ const FormInput = ({ label, type, required, span }) => {
         name={label}
         type={type}
         required={required}
+        defaultValue={type === "datetime-local" ? value.toISOString().slice(0,value.toISOString().length-1) : value}
         className={`border-solid ${
           type === "file" ? "" : "border-2"
         } border-gray-200 rounded-sm px-1`}
@@ -19,7 +23,7 @@ const FormInput = ({ label, type, required, span }) => {
   );
 };
 
-const Form = ({ fields, cta, large, onSubmit, children }) => {
+const Form = ({ fields, values, cta, large, onSubmit, children }) => {
   return (
     <div className="flex flex-col bg-gray-100 p-5 rounded-md">
     <form
@@ -28,9 +32,9 @@ const Form = ({ fields, cta, large, onSubmit, children }) => {
         large ? "w-96" : "w-48"
       }`}
     >
-      {fields.map((x) => {
+      {fields.map((x,i) => {
         return (
-          <FormInput label={x.label} type={x.type} required={x.required} span={x.span} />
+          <FormInput key={x.label} label={x.label} type={x.type} required={x.required} span={x.span} value={values ? values[i] : null}/>
         );
       })}
       <input

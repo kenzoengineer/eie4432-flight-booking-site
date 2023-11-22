@@ -2,8 +2,8 @@ import Container from "./Container";
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-100 ">
-            <Container>
+        <footer className="bg-gray-100">
+            <Container noHeight>
                 <div className="flex items-center py-5 text-sm">
                 <div className="mr-5">
                 <img src="/imgs/airplane_logo.svg" width={80} />

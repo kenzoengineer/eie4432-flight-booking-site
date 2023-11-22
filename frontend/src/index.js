@@ -10,6 +10,8 @@ import Signup from "./routes/Signup";
 import Flights from "./routes/Flights";
 import Payment from "./routes/Payment";
 import Booking from "./routes/Booking";
+import Admin from "./routes/Admin";
+import EventManagement from "./routes/EventManagement";
 
 const router = createBrowserRouter([{
     path: "/",
@@ -31,6 +33,12 @@ const router = createBrowserRouter([{
         },{
             path: "/booking/:id",
             element: <Booking/>,
+        },{
+            path: "/admin",
+            element: <Admin/>,
+        },{
+            path: "/eventmanagement",
+            element: <EventManagement/>,
         },
     ],
 },]);

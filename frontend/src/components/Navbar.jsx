@@ -20,7 +20,7 @@ const Navbar = () => {
     <nav className="bg-gray-100 flex justify-center items-center text-lg py-2">
         <ul>
             <NavElement href="/">
-                <img src="../imgs/airplane_logo.svg" width={30} className="inline-block"/>
+                <img src="/imgs/airplane_logo.svg" width={30} className="inline-block"/>
                 <div className="text-black inline-block">FBS</div>
             </NavElement>
             <NavElement href="flights">Flights</NavElement>
@@ -28,6 +28,8 @@ const Navbar = () => {
             <NavElement href="signup">Sign up</NavElement>
             <NavElement href="payment/1/1">Payment</NavElement>
             <NavElement href="booking/1">Booking</NavElement>
+            <NavElement href="admin">Admin</NavElement>
+            <NavElement href="eventmanagement">Flight Man.</NavElement>
             <NavElement href="">
                 <span className="text-sm">
                 <Button text={"Log Out"} onClick={() => console.log("Logged Out")} secondary></Button>
