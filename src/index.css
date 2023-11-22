@@ -16,9 +16,6 @@ body {
     overflow-y: auto;
 }
 
-.App {
-    max-height: 100vh;
-}
 
 .selected-seat {
     fill: #c6ffc6!important;
@@ -27,4 +24,15 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

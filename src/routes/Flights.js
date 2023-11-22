@@ -3,36 +3,10 @@ import Button from "../components/Button";
 import Filter from "../components/Filter";
 import Container from "../components/Container";
 import { GET_ALL_FLIGHT_DATA } from "../js/endpoints";
+import { GenerateFakeFlightData } from "../js/utils";
 
-let FLIGHT_DATA = [
-    {
-        dest: "YYZ",
-        date: new Date(Date.UTC(2023, 10, 29, 0, 35)),
-        duration: 950,
-        stops: "Nonstop",
-        price: 19720,
-        id: "1",
-    },
-    {
-        dest: "ICN",
-        date: new Date(Date.UTC(2023, 11, 3, 12, 35)),
-        duration: 193,
-        stops: "Nonstop",
-        price: 7310,
-        id: "2",
-    },
-    {
-        dest: "NRT",
-        date: new Date(Date.UTC(2023, 10, 30, 7, 10)),
-        duration: 140,
-        stops: "Nonstop",
-        price: 4115,
-        id: "3",
-    },
-];
-// crude way to create more data
-FLIGHT_DATA = [...FLIGHT_DATA, ...FLIGHT_DATA, ...FLIGHT_DATA];
-
+const FLIGHT_DATA = GenerateFakeFlightData(10);
+ 
 const DATE_OPTIONS = {
     year: "numeric",
     month: "2-digit",
@@ -111,14 +85,14 @@ const Flights = () => {
     }, []);
 
     return (
-        <Container>
-            <h1 className="my-5 text-5xl font-bold">Flights.</h1>
+        <Container title={"Flights"}>
             <div className="">
                 <Filter filters={FILTER_DATA} filterFn={filterFlightData} />
             </div>
             {filteredFlightData.map((x) => {
                 return (
                     <Flight
+                        key={x.id}
                         dest={x.dest}
                         date={x.date}
                         duration={x.duration}
