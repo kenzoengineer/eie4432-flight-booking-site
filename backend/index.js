@@ -3,6 +3,7 @@ import session from 'express-session';
 // import mongostore from 'connect-mongo';
 
 const app = express();
+app.use(express.json());
 
 app.use(
   session({
@@ -17,8 +18,11 @@ app.use(
 app.get('/', (req, res) => {
 });
 
-// import route from './login.js';
-// app.use('/auth', route);
+import usersRoute from './routes/users.js';
+app.use('/users', usersRoute);
+
+import logsRoute from './routes/logs.js';
+app.use('/logs', logsRoute);
 
 app.listen(8080, () => {
   const date = new Date();
