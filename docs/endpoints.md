@@ -52,7 +52,7 @@ Registers a user.
 
 Body: User Object
 
-Returns: User Object if successful and error message otherwise
+Returns: Success message if successful and error message otherwise
 
 
 ## LOGIN_USER 
@@ -68,7 +68,7 @@ Body:
     }
 ```
 
-Returns: User Object if successful, error message otherwise
+Returns: success message if successful, error message otherwise
 
 ## UPDATE_USER 
 > `PATCH /user/:id`
@@ -81,7 +81,7 @@ Body:
     [key: string]: any // any of the fields in the user object
 }
 ```
-Returns: User Object if successful, error message otherwise
+Returns: success message if successful, error message otherwise
 
 # Flights:
 
@@ -255,13 +255,15 @@ Body: Transaction Object
 Returns: Transaction Object if successful, error message otherwise
 
 # Logs
+
+Logs are created during login attemps, profile edits, and password changes.
+
 ## Log Schema
 ```ts
     {
         id: Number,
         user_id: Number,
         date: Date,
-        type: String,
         message: String,
     }
 ```

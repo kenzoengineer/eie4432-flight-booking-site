@@ -21,10 +21,10 @@ const client = new MongoClient(connect_uri, {
 
 async function connect() {
   const date = new Date();
-  console.log(date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString());
   try {
     await client.connect();
     await client.db('flight-booking').command({ ping: 1 });
+    console.log(date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString());
     console.log('Successfully connected to the database!');
   } catch (err) {
     console.error('Unable to establish connection to the database!', err);
