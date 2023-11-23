@@ -3,7 +3,7 @@ import Form from "../components/Form";
 import Button from "../components/Button"
 import { GenerateFakeFlightData } from "../js/utils";
 
-const FLIGHT_DATA = GenerateFakeFlightData(4);
+const FLIGHT_DATA = GenerateFakeFlightData(20);
 
 const FLIGHT_FIELDS = [
     {
@@ -17,17 +17,18 @@ const FLIGHT_FIELDS = [
         type: "datetime-local",
         required: true,
     },{
-        label: "Duration",
+        label: "Length (min)",
         span: false,
         type: "number",
         required: true,
     },{
         label: "Stops",
         span: false,
-        type: "text",
+        type: "select",
+        options: ["Nonstop", "One", "Two+"],
         required: true,
     },{
-        label: "Price",
+        label: "Price (HKD)",
         span: true,
         type: "number",
         required: true,
@@ -37,8 +38,8 @@ const FLIGHT_FIELDS = [
 const Card = ({values}) => {
     console.log(values);
     return (
-        <div className="m-2">
-            <Form fields={FLIGHT_FIELDS} cta={"Submit"} values={values}>
+        <div>
+            <Form fields={FLIGHT_FIELDS} cta={"Submit"} values={values} medium>
                 <div className="mt-2">
                     <Button onClick={() => {console.log("DELETE")}} text={"Delete"} secondary></Button>
                 </div>
@@ -50,7 +51,7 @@ const Card = ({values}) => {
 const EventManagement = () => {
     return (
         <Container title={"Flight Management"}>
-            <div className="flex flex-wrap justify-around">
+            <div className="flex flex-wrap gap-3">
             {
                 FLIGHT_DATA.map((x) => {
                     return(<Card
