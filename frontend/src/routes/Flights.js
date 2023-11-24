@@ -24,7 +24,14 @@ const FILTER_DATA = [
     {
         label: "Destination",
         type: "text",
-    },
+    },{
+        label: "Date",
+        type: "date",
+    },{
+        label: "Stops",
+        type: "select",
+        options: ["Nonstop", "One", "Two+"]
+    }
 ];
 
 const Flight = ({ dest, date, duration, stops, price, id }) => {
@@ -63,15 +70,38 @@ const Flight = ({ dest, date, duration, stops, price, id }) => {
     );
 };
 
+const Header = () => {
+    return (
+        <div className="grid grid-cols-12 px-5 mt-3 text-gray-400">
+            <div className="flex col-span-5">
+                Destination, Date
+            </div>
+            <div className="flex col-span-2">
+                Time, Duration
+            </div>
+            <div className="flex col-span-2">
+                # of Stops
+            </div>
+            <div className="flex col-span-2">
+                Price
+            </div>
+            <div className="flex col-span-1">
+
+            </div>
+        </div>
+    );
+}
+
 const Flights = () => {
     const [flightData, setFlightData] = useState(FLIGHT_DATA);
     const [filteredFlightData, setFilteredFlightData] = useState(flightData);
 
     const filterFlightData = (filters) => {
-        console.log(flightData);
         setFilteredFlightData(
             flightData.filter((x) =>
-                x.dest.includes(filters.Destination.toUpperCase())
+                x.dest.includes((filters.Destination ?? "").toUpperCase()) &&
+                (new Date(filters.Date).toString() === "Invalid Date" || new Date(filters.Date).toDateString() === x.date.toDateString()) &&
+                x.stops.includes(filters.Stops ?? "")
             )
         );
     };
@@ -86,9 +116,10 @@ const Flights = () => {
 
     return (
         <Container title={"Flights"}>
-            <div className="">
+            <div className="pt-2">
                 <Filter filters={FILTER_DATA} filterFn={filterFlightData} />
             </div>
+            <Header/>
             {filteredFlightData.map((x) => {
                 return (
                     <Flight

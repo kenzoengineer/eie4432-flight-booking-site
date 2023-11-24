@@ -14,6 +14,12 @@ const LoginForm = [
     type: "password",
     required: true,
   },
+  {
+    label: "Remember me",
+    span: true,
+    type: "checkbox",
+    required: false,
+  },
 ];
 
 const Login = () => {

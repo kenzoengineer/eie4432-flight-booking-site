@@ -30,6 +30,7 @@ const Navbar = () => {
             <NavElement href="booking/1">Booking</NavElement>
             <NavElement href="admin">Admin</NavElement>
             <NavElement href="eventmanagement">Flight Man.</NavElement>
+            <NavElement href="account">Account</NavElement>
             <NavElement href="">
                 <span className="text-sm">
                 <Button text={"Log Out"} onClick={() => console.log("Logged Out")} secondary></Button>

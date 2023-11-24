@@ -20,12 +20,6 @@ const SignupForm = [
     required: true,
   },
   {
-    label: "Nickname",
-    type: "text",
-    span: true,
-    required: true,
-  },
-  {
     label: "Gender",
     type: "text",
     span: true,
@@ -37,8 +31,8 @@ const SignupForm = [
     span: false,
     required: true,
   },{
-    label: "Profile Picture",
-    type: "file",
+    label: "Profile Picture (Link)",
+    type: "text",
     span: false,
     required: true,
   },
