@@ -3,9 +3,9 @@
 - [Endpoints](#endpoints)
   - [Users:](#users)
     - [User Schema](#user-schema)
-    - [REGISTER_USER](#register_user)
-    - [LOGIN_USER](#login_user)
-    - [UPDATE_USER](#update_user)
+    - [REGISTER_USER](#register_user) 
+    - [LOGIN_USER](#login_user) 
+    - [UPDATE_USER](#update_user) 
   - [Flights:](#flights)
     - [Flight Schema](#flight-schema)
     - [GET\_ALL\_FLIGHT\_DATA](#get_all_flight_data)
@@ -35,13 +35,13 @@
 ## User Schema 
 ```ts
     {
-        id: Number,             
         username: String,
         password: String,
         email: String,
         gender: String,
         birthdate: Date,
         profile_pic: String,
+        messages: Array<String>,
     },
 ```
 
@@ -50,7 +50,17 @@
 
 Registers a user. 
 
-Body: User Object
+Body: 
+```ts
+{
+    username: String,
+    password: String,
+    email: String,
+    gender: String,
+    birthdate: Date,
+    profile_pic: String,
+},
+```
 
 Returns: Success message if successful and error message otherwise
 
@@ -68,16 +78,24 @@ Body:
     }
 ```
 
-Returns: success message if successful, error message otherwise
+Returns: 
+```ts
+    {
+        userId: User._id,
+        messages: Array<String>,
+    }
+```
+if successful, error message otherwise
 
 ## UPDATE_USER 
 > `PATCH /user/:id`
 
-Updates user based on passed in params. Used for updating fields, forgot password, etc. Logs changed password.
+Updates user based on passed in params. Used for updating fields, forgot password, etc. Username cannot be changed to one already in use. Logs changed password.
 
 Body: 
 ```ts
 {
+    id: User._id,
     [key: string]: any // any of the fields in the user object
 }
 ```
@@ -88,19 +106,35 @@ Returns: success message if successful, error message otherwise
 ## Flight Schema 
 ```ts
     {
-        id: Number,             // e.g. 1
         dest: String,           // e.g. YYZ, NRT, etc.
         date: DateTime,         // e.g. 10-29-2023 3:35AM *SHOULD BE IN UTC!!!!
         duration: Number,       // e.g. 600 *THIS IS IN MINUTES
         stops: String,          // e.g. Non-stop, One Stop
-        seats: Array<SeatId>,   
         sold: Number,           // To determine seats sold in O(1)
+        first_class_price: Number,
+        price: Number,
+        rows: Number,
+        sections: Number,
+        columns_per_section: Number,
     },
 ```
 
+<!-- seats_per_col represents how wide the plane is. seats_per_section represents how big each section of seats is. This lets us have different sized planes.
+```
+    xxxxxxxx                xxxxxxxx
+    xxxxxxxx
+                   vs       xxxxxxxx
+    xxxxxxxx
+    xxxxxxxx                xxxxxxxx
+
+    32 seats                24 seats
+    8 seats_per_col         8 seats_per_col
+    16 seats_per_section    8 seats_per_section
+``` -->
+
 ## GET_ALL_FLIGHT_DATA
 
-Returns an array of all flight data.
+Returns an array of all flight data, excluding seat data
 
 > `GET /flights/`
 
@@ -112,37 +146,74 @@ Array\<Flights>
 
 > `GET /flights/:id`
 
-Returns flight data for one flight. Will take in flight ID as a parameters
+Returns flight data for one flight, and all seats for that flight. 
 
 Returns: 
-Flight
+```ts
+    {
+        flight: Flight,
+        seats: Array<Seat>
+    }
+```
 
 *Example below:*
 
 ```ts
     {
-        dest: "YYZ",
-        date: new Date(Date.UTC(2023,11,29,0,35)),
-        duration: 950,
-        stops: "Nonstop",
-        price: 19720,
-        id: "1",
+        flight: {
+            dest: "YYZ",
+            date: new Date(Date.UTC(2023,11,29,0,35)),
+            duration: 950,
+            stops: "Nonstop",
+            price: 19720,
+            id: "1",
+        },
+        seats: [
+            {
+                index: 1,
+                occupied: 1238901292,
+                first_class: true
+                flight_id: 1,
+            },
+            {
+                index: 2,
+                occupied: 0198278,
+                first_class: false, 
+                flight_id: 1,
+            },
+            .
+            .
+            .
+        ]
     },
 ```
 
 ## CREATE_FLIGHT
 > `POST /flights/`
 
-Creates a new flight. Instantiates seats for the flight.
+Creates a new flight. Instantiates seats object for the flight.
 
-Body: Flight Object
+Body: 
+```ts
+    {
+        dest: String,           // e.g. YYZ, NRT, etc.
+        date: DateTime,         // e.g. 10-29-2023 3:35AM *SHOULD BE IN UTC!!!!
+        duration: Number,       // e.g. 600 *THIS IS IN MINUTES
+        stops: String,          // e.g. Non-stop, One Stop
+        first_class_price: Number,
+        price: Number,
+        rows: Number,
+        sections: Number,
+        columns_per_section: Number,
+    },
+```
 
 Returns: Flight Object if successful, error message otherwise
 
 ## UPDATE_FLIGHT
 > `PATCH /flights/:id`
 
-Updates a flight based on passed in params. Can update any field except for id and seats
+Updates a flight based on passed in params. Can update any field except for id and seat data. Notifies users who have bought a seat on the flight.
 
 Body: Flight Object
 
@@ -153,17 +224,17 @@ Returns: Flight Object if successful, error message otherwise
 
 Deletes a flight object. Also deletes all seats associated with the flight, and notifies all users who have bought a seat on the flight.
 
-Returns: True if successful, error message otherwise
+Returns: Success message if successful, error message otherwise
 
 # Seats
 ## Seat Schema
 
 ```ts
     {
-        id: Number,
-        flight_id: Number,
-        occupied: Boolean,
-        price: Number
+        flight_id: Flight._id,
+        index: Number, // 0-indexed
+        occupied: User._id,
+        first_class: Boolean,
     }
 ```
 
@@ -208,24 +279,30 @@ A2 is 5th element
 ]
 ```
 
-## UPDATE_SEAT
-> `PATCH /seat/:id`
+## UPDATE_FIRST_CLASS
+> `PATCH /seats/:flight_id`
 
-Updates a seat based on passed in params. Can update any field except for id and flight_id
+Updates seats to be first class or not. Takes in an array of seat indexes to update.
+
+Body: Array of Seat Indexes
+
+<!-- ## UPDATE_SEAT
+> `PATCH /seat/:flight_id`
+
+Updates a seat based on passed in params. Can update any field except for id and flight_id, and index
 
 Body: Seat Object
 
-Returns: Seat Object if successful, error message otherwise
+Returns: Seat Object if successful, error message otherwise -->
 
 # Transactions
 ## Transaction Schema
 
 ```ts
     {
-        id: Number,
-        user_id: Number,
-        flight_id: Number,
-        seat_id: Number,
+        user: User._id,
+        flight: String,
+        seat: String,
         price: Number,
         date: Date,
     }
@@ -250,7 +327,16 @@ Returns: Array\<Transaction> if successful, error message otherwise
 
 Creates a new transaction. Updates seat to occupied, and updates flight sold count.
 
-Body: Transaction Object
+Body:
+```ts
+    {
+        user: User._id,
+        flight: Flight._id,
+        seat: Seat._id,
+        seat_name: String,
+        price: Number,
+    }
+```
 
 Returns: Transaction Object if successful, error message otherwise
 
