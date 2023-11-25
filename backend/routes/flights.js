@@ -33,7 +33,7 @@ route.get('/:id', async (req, res) => {
   if (!result) throw new Error('Flight not found');
   const seats = client.db(dbName).collection('seats').find({ flight_id: result._id }).sort({ index: 1 }).toArray();
   
-  //needs to include owner of seat
+  //TODO needs to include owner of seat
   res.status(200).json({
     flight: result,
     seats: seats,
