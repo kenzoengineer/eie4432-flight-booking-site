@@ -1,0 +1,17 @@
+
+Users:
+Register 
+- works
+- checks if username or email already
+Login user
+- login works
+- todo: check messages work
+Update Users
+- update works, wont update if username exists, hashs password and login works after
+
+flights:
+create flights
+- works
+- creates right amount of seats with the right index and flight id
+
+

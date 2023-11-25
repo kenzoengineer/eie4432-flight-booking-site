@@ -24,6 +24,20 @@ app.use('/users', usersRoute);
 import logsRoute from './routes/logs.js';
 app.use('/logs', logsRoute);
 
+import flightsRoute from './routes/flights.js';
+app.use('/flights', flightsRoute);
+
+import seatsRoute from './routes/seats.js';
+app.use('/seats', seatsRoute);
+
+import transactionsRoute from './routes/transactions.js';
+app.use('/transactions', transactionsRoute);
+
+app.use((err, req, res, next) => {
+  console.log("Error Occurred", err);
+  res.status(500).json({ message: 'An error occurred: ' + err.message });
+});
+
 app.listen(8080, () => {
   const date = new Date();
   console.log(date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString());

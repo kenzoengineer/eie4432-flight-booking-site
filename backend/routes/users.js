@@ -16,9 +16,11 @@ User Schema:
     gender: String,
     birthdate: Date,
     profile_pic: String,
+    messages: Array<String>
   },
 */
 
+// REGISTER_USER
 route.post('/register', async (req, res) => {
   const user = req.body;
   if (!user) return res.status(400).json({ message: 'User data is required' });
@@ -35,6 +37,7 @@ route.post('/register', async (req, res) => {
   }
   //insert user to database, hash password
   user.password = await bcrypt.hash(user.password, 10);
+  user.messages = [];
   const result = await users.insertOne(user);
   if (result.acknowledged) {
     res.status(200).json({ message: 'User registered successfully' });
@@ -43,6 +46,7 @@ route.post('/register', async (req, res) => {
   }
 });
 
+// LOGIN_USER
 route.post('/login', async (req, res) => {
   const user = req.body;
   if (!user) return res.status(400).json({ message: 'User data is required' });
@@ -53,7 +57,9 @@ route.post('/login', async (req, res) => {
     const match = await bcrypt.compare(user.password, result.password);
     if (match) {
       await createLog(result._id, `User ${user.username} logged in`);
-      res.status(200).json({ message: 'User logged in successfully' });
+      const clearMessages = await users.updateOne({ _id: new ObjectId(result._id) }, { "$set": { messages: [] } });
+      if (!clearMessages.acknowledged) throw new Error('Unable to clear messages');
+      res.status(200).json({ userId: result._id, messages: result.messages });
     } else {
       await createLog(result._id, `User ${user.username} attemped to log in`);
       res.status(400).json({ message: 'Incorrect password' });
@@ -63,6 +69,7 @@ route.post('/login', async (req, res) => {
   }
 });
 
+//UPDATE_USER
 route.patch('/:id', async (req, res) => {
   const params = req.body;
 
@@ -77,6 +84,11 @@ route.patch('/:id', async (req, res) => {
 
   const user = await users.findOne({ _id: id});
   if (!user) return res.status(400).json({ message: 'User not found' });
+
+  // can't modify username if it already exists 
+  if (params.username && user.username == params.username) {
+    return res.status(400).json({ message: 'Username already exists' });
+  }
 
   const result = await users.updateOne({ _id: id}, { "$set": params });
   
