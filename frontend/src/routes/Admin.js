@@ -17,7 +17,7 @@ const Admin = () => {
             <BorderedPane>
                 <div className="w-48">
                     <Button
-                        href={"/eventmanagment"}
+                        href={"/eventmanagement"}
                         text={"Update Flight Listings"}
                         secondary
                     />

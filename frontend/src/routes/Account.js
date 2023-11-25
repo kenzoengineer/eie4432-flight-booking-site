@@ -11,36 +11,42 @@ import Form from "../components/Form";
 
 const AccountForm = [
     {
+        id: "username",
         label: "Username",
         type: "text",
         span: false,
         required: true,
     },
     {
+        id: "email",
         label: "Email",
         type: "email",
         span: false,
         required: true,
     },
     {
+        id: "password",
         label: "Password",
         type: "password",
         span: false,
         required: true,
     },
     {
+        id: "gender",
         label: "Gender",
         type: "text",
         span: false,
         required: true,
     },
     {
+        id: "birthday",
         label: "Birthday",
         type: "date",
         span: false,
         required: true,
     },
     {
+        id: "photo",
         label: "Profile Picture (Link)",
         type: "text",
         span: false,
@@ -115,11 +121,6 @@ const Account = () => {
     const [user, setUser] = useState("");
     const [transactions, setTransactions] = useState(FAKE_TRANSACTIONS);
     const [editing, setEditing] = useState(false);
-    const userDataWithoutId = () => {
-        let newUser = { ...user };
-        delete newUser.id;
-        return newUser;
-    };
     useEffect(() => {
         const getUser = async () => {
             // return fetch(GET_USER(localStorage.getItem("user")));
@@ -178,7 +179,7 @@ const Account = () => {
                     >
                         <Form
                             fields={AccountForm}
-                            values={Object.values(userDataWithoutId())}
+                            values={user}
                             cta="Complete Edit"
                             onSubmit={() => {
                                 alert("hey");

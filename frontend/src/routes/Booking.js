@@ -4,109 +4,14 @@ import Container from "../components/Container";
 import { useEffect, useState } from "react";
 import { GET_FLIGHT_DATA, GET_FLIGHT_SEAT_DATA } from "../js/endpoints";
 import Button from "../components/Button";
-
-const SEAT_DIAMETER = 50;
-const SEAT_RADIUS = SEAT_DIAMETER / 2;
+import SeatMap from "../components/SeatMap";
+import { GenerateFakeFlightData, GenerateFakeSeats } from "../js/utils";
 
 // will be used to draw the plane
-const FAKE_FLIGHT_DATA = {
-    dest: "YYZ",
-    seatsPerColumn: 2,
-    columnsPerPlane: 2,
-    rowsPerPlane: 7,
-};
+const FAKE_FLIGHT_DATA = GenerateFakeFlightData(1)[0];
 
 // seat information (occupied, price)
-const FAKE_SEAT_DATA = [];
-// generate fake seat data
-for (
-    let i = 0;
-    i <
-    FAKE_FLIGHT_DATA.seatsPerColumn *
-        FAKE_FLIGHT_DATA.columnsPerPlane *
-        FAKE_FLIGHT_DATA.rowsPerPlane;
-    i++
-) {
-    FAKE_SEAT_DATA.push({
-        occupied: Math.floor(Math.random() * 5) < 2,
-        price: Math.floor(Math.random() * 100) + 1000,
-    });
-}
-
-const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat }) => {
-    const currSeat = seatData[col + (row - 1) * totalCols];
-    const label = `${String.fromCharCode(65 + col)}${row}`;
-    const fill = `${currSeat.occupied ? "fill-red-200" : "fill-white"}`;
-    return (
-        <>
-            <rect
-                onClick={() => {
-                    if (!currSeat.occupied)
-                        changeSelectedSeat(col + (row - 1) * totalCols, label);
-                }}
-                id={`s${col + (row - 1) * totalCols}`}
-                className={`${fill} stroke-black stroke-[3px] ${
-                    currSeat.occupied && "cursor-not-allowed"
-                }`}
-                x={x}
-                y={y}
-                width={SEAT_DIAMETER}
-                height={SEAT_DIAMETER}
-                rx="10"
-                ry="10"
-            ></rect>
-            <text
-                className="pointer-events-none select-none"
-                x={x + SEAT_RADIUS}
-                y={y + SEAT_RADIUS}
-                fill="black"
-                textAnchor="middle"
-                alignmentBaseline="central"
-            >
-                {label}
-            </text>
-        </>
-    );
-};
-
-const SeatMap = ({ flightData, seatData, changeSelectedSeat }) => {
-    const seatElements = [];
-
-    const TOTAL_COLUMNS =
-        flightData.columnsPerPlane * flightData.seatsPerColumn;
-    // count down columns. we subtract 1 so the last column is 0
-    for (let col = TOTAL_COLUMNS - 1; col >= 0; col--) {
-        // count up rows
-        for (let row = 1; row <= flightData.rowsPerPlane; row++) {
-            // insert space between columns
-            const gap = Math.floor(
-                (TOTAL_COLUMNS - 1 - col) / flightData.seatsPerColumn
-            );
-            seatElements.push(
-                <Seat
-                    key={`${row}${col}`}
-                    x={SEAT_RADIUS + SEAT_DIAMETER * (row - 1)}
-                    y={
-                        SEAT_RADIUS +
-                        (SEAT_DIAMETER * (TOTAL_COLUMNS - 1 - col) +
-                            SEAT_RADIUS * gap)
-                    }
-                    row={row}
-                    col={col}
-                    totalCols={TOTAL_COLUMNS}
-                    seatData={seatData}
-                    changeSelectedSeat={changeSelectedSeat}
-                />
-            );
-        }
-    }
-
-    return (
-        <svg width={`${(flightData.rowsPerPlane + 1) * SEAT_DIAMETER}px`} height={`${(flightData.columnsPerPlane * flightData.seatsPerColumn + 1) * SEAT_DIAMETER + 25 * flightData.columnsPerPlane}px`}>
-            {seatElements}
-        </svg>
-    );
-};
+const FAKE_SEAT_DATA = GenerateFakeSeats(FAKE_FLIGHT_DATA);
 
 const Booking = () => {
     const { id } = useParams();

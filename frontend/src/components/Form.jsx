@@ -49,19 +49,19 @@ const Form = ({ fields, values, cta, large, medium, onSubmit, children }) => {
                 // this will be action={onSubmit} when we have a working backend
                 onSubmit={onSubmit}
                 className={`grid gap-x-1 lg:grid-cols-2 ${
-                    large ? "w-96" : medium ? "w-56" : "w-48"
+                    large ? "w-96" : medium ? "w-[20.6rem]" : "w-48"
                 }`}
             >
                 {fields.map((x, i) => {
                     return (
                         <FormInput
-                            key={x.label}
+                            key={x.id}
                             label={x.label}
                             type={x.type}
                             required={x.required}
                             span={x.span}
                             options={x.options}
-                            value={values ? values[i] : null}
+                            value={values ? values[x.id] : null}
                         />
                     );
                 })}

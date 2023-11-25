@@ -15,25 +15,42 @@ export const GenerateFakeFlightData = (count) => {
     const STOPS = ["Nonstop", "One", "Two+"];
     // crude way to create more data
     for (let i = 0; i < count; i++) {
+        const R = Math.random();
         flightData.push({
-            dest: DESTINATIONS[Math.floor(Math.random() * DESTINATIONS.length)],
+            id: i,
+            dest: DESTINATIONS[Math.floor(R * DESTINATIONS.length)],
             date: new Date(
                 Date.UTC(
                     2024,
-                    Math.floor(Math.random() * 12) + 1,
-                    Math.floor(Math.random() * 30) + 1,
-                    Math.floor(Math.random() * 24),
-                    Math.floor(Math.random() * 60)
+                    Math.floor(R * 12) + 1,
+                    Math.floor(R * 30) + 1,
+                    Math.floor(R * 24),
+                    Math.floor(R * 60)
                 )
             ),
-            duration: Math.floor(Math.random() * 500) + 60,
-            stops: STOPS[Math.floor(Math.random() * STOPS.length)],
-            price: Math.floor(Math.random() * 10000) + 3000,
-            id: i,
+            duration: Math.floor(R * 500) + 60,
+            stops: STOPS[Math.floor(R * STOPS.length)],
+            price: Math.floor(R * 10000) + 3000,
+            first_class_price: Math.floor(R * 10000) + 9000,
+            rows: Math.floor(Math.random() * 10) + 10,
+            sections: Math.floor(Math.random() * 2) + 1,
+            columns_per_section: Math.floor(Math.random() * 2) + 2,
         });
     }
     return flightData;
 };
+
+export const GenerateFakeSeats = (flightData) => {
+    const seats = [];
+    for (let i = 0; i < flightData.columns_per_section * flightData.sections * flightData.rows; i++) {
+        seats.push({
+            occupied: Math.floor(Math.random() * 5) < 2,
+            price: Math.floor(Math.random() * 100) + 1000,
+            firstClass: Math.floor(Math.random() * 4) === 0
+        });
+    }
+    return seats;
+}
 
 export const GenerateFakeTransactionInformation = (count) => {
     let data = GenerateFakeFlightData(count);
