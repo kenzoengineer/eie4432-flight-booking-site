@@ -14,48 +14,93 @@ import Admin from "./routes/Admin";
 import EventManagement from "./routes/EventManagement";
 import Account from "./routes/Account";
 import SeatManagement from "./routes/seatmanagement";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-const router = createBrowserRouter([{
-    path: "/",
-    element: <App/>,
-    errorElement: <ErrorPage/>,
-    children: [
-        {
-            path: "/login",
-            element: <Login/>,
-        },{
-            path: "/signup",
-            element: <Signup/>,
-        },{
-            path: "/flights",
-            element: <Flights/>,
-        },{
-            path: "/payment/:flightid/:seatidx",
-            element: <Payment/>,
-        },{
-            path: "/booking/:id",
-            element: <Booking/>,
-        },{
-            path: "/admin",
-            element: <Admin/>,
-        },{
-            path: "/eventmanagement",
-            element: <EventManagement/>,
-        },{
-            path: "/account",
-            element: <Account/>,
-        },{
-            path: "/seatmanagement",
-            element: <SeatManagement/>
-        }
-    ],
-},]);
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <App />,
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: "/",
+                element: (<ProtectedRoute>
+                <Flights />
+                </ProtectedRoute>)
+            },
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/signup",
+                element: <Signup />,
+            },
+            {
+                path: "/flights",
+                element: (
+                    <ProtectedRoute>
+                        <Flights />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "/payment/:flightid/:seatidx",
+                element: (
+                    <ProtectedRoute>
+                        <Payment />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "/booking/:id",
+                element: (
+                    <ProtectedRoute>
+                        <Booking />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "/admin",
+                element: (
+                    <ProtectedRoute admin>
+                        <Admin />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "/eventmanagement",
+                element: (
+                    <ProtectedRoute admin>
+                        <EventManagement />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "/account",
+                element: (
+                    <ProtectedRoute>
+                        <Account />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "/seatmanagement",
+                element: (
+                    <ProtectedRoute admin>
+                        <SeatManagement />
+                    </ProtectedRoute>
+                ),
+            },
+        ],
+    },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>
+    <React.StrictMode>
+        <RouterProvider router={router} />
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

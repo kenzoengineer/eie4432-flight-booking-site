@@ -7,7 +7,10 @@ const NO_FOOTER = new Set(["/login", "/signup"]);
 function App() {
   return (
     <div className="App flex flex-col">
-        <Navbar/>
+        {
+            !NO_FOOTER.has(useLocation().pathname) && 
+            <Navbar/>
+        }
         <span id="outlet-content">
             <Outlet/>
         </span>

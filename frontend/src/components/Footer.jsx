@@ -1,5 +1,3 @@
-import { LogInAdmin, LogInUser, LogOutUser } from "../js/utils";
-import Button from "./Button";
 import Container from "./Container";
 
 const Footer = () => {
@@ -19,11 +17,6 @@ const Footer = () => {
                             <br />
                             Anson Yuen - 23012962X
                         </div>
-                    </div>
-                    <div className="ml-5 flex gap-2">
-                    <Button onClick={LogInUser} text={"Generate Fake User"}/>
-                    <Button onClick={LogInAdmin} text={"Generate Admin User"}/>
-                    <Button onClick={LogOutUser} text={"Clear Logged In User"}/>
                     </div>
                 </div>
             </Container>

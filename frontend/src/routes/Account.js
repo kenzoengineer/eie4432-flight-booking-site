@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import Container from "../components/Container";
-import { GET_USER } from "../js/endpoints";
+import { GET_USER, PUT_USER } from "../js/endpoints";
 import {
     GenerateFakeTransactionInformation,
     GenerateFakeUser,
+    getLoggedInUser,
 } from "../js/utils";
 import BorderedPane from "../components/BorderedPane";
 import Button from "../components/Button";
 import Form from "../components/Form";
+import { useNavigate } from "react-router-dom";
 
 const AccountForm = [
     {
@@ -39,14 +41,14 @@ const AccountForm = [
         required: true,
     },
     {
-        id: "birthday",
+        id: "birthdate",
         label: "Birthday",
         type: "date",
         span: false,
         required: true,
     },
     {
-        id: "photo",
+        id: "profile_pic",
         label: "Profile Picture (Link)",
         type: "text",
         span: false,
@@ -121,14 +123,15 @@ const Account = () => {
     const [user, setUser] = useState("");
     const [transactions, setTransactions] = useState(FAKE_TRANSACTIONS);
     const [editing, setEditing] = useState(false);
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         const getUser = async () => {
-            // return fetch(GET_USER(localStorage.getItem("user")));
-            setUser(
-                await GenerateFakeUser(
-                    JSON.parse(localStorage.getItem("user")).id
-                )
-            );
+            const res = await fetch(GET_USER(getLoggedInUser().userId));
+            let resJson = await res.json();
+            delete resJson.password;
+            setUser(resJson);
         };
         const getTransactions = async () => {
             // return fetch(GET_TRANSACTIONS(localStorage.getItem("user")));
@@ -137,29 +140,52 @@ const Account = () => {
         getUser();
         getTransactions();
     }, []);
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        console.log(user);
+        const formData = new FormData(e.target);
+        try {
+            const res = await fetch(PUT_USER(user._id), {
+                method: "PUT",
+                body: formData,
+            });
+            const resJson = await res.json();
+            if (res.status === 400) {
+                alert(resJson.message);
+                return;
+            }
+            navigate(0);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     return (
         <Container title={"Account"}>
             <BorderedPane>
                 <div className="flex items-center h-64">
                     <div className="h-48 w-48 p-2 flex items-center justify-center border-2 border-gray-500 rounded-md">
                         <img
-                            src={user.photo}
+                            src={user.profile_pic}
                             className="max-h-[11em] max-w-[11em]"
                         ></img>
                     </div>
                     <div className="ml-5 w-96">
+                        <span className="text-sm text-gray-500">
+                            {" #"}
+                            {user._id}
+                        </span>
                         <h1 className="text-5xl font-bold mb-1">
                             {user.username}
-                            <span className="text-sm text-gray-500">
-                                {" #"}
-                                {user.id}
-                            </span>
                         </h1>
                         <p>Email: {user.email}</p>
                         <p>Gender: {user.gender}</p>
                         <p className="mb-2">
                             Birthday:{" "}
-                            {(user.birthday ?? new Date()).toDateString()}
+                            {(
+                                new Date(user.birthdate) ?? new Date()
+                            ).toDateString()}
                         </p>
                         <div className="w-24">
                             <Button
@@ -181,9 +207,7 @@ const Account = () => {
                             fields={AccountForm}
                             values={user}
                             cta="Complete Edit"
-                            onSubmit={() => {
-                                alert("hey");
-                            }}
+                            onSubmit={onSubmit}
                             large
                         />
                     </div>
