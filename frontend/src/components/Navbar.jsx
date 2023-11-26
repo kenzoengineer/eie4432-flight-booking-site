@@ -16,7 +16,7 @@ const Navbar = () => {
 
     const [adminStatus, setAdminStatus] = useState(false);
     const [showNotif, setShowNotif] = useState(false);
-    const messages = getLoggedInUser().messages;
+    const messages = getLoggedInUser()?.messages ?? [];
     const hasNotif = messages.length > 0;
     const bellSrc = hasNotif ? "/imgs/notif-bell.svg" : "/imgs/bell.svg";
 

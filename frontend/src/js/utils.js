@@ -25,7 +25,10 @@ export const getLoggedInUser = () => {
 }
 
 export const isAdmin = async () => {
-    const userId = getLoggedInUser().userId;
+    const loggedInUser = getLoggedInUser();
+    if (!loggedInUser)
+        return false;
+    const userId = loggedInUser.userId;
     const res = await fetch(GET_ADMIN(userId));
     return await res.text() === "true";
 }
