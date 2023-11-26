@@ -13,6 +13,7 @@ import Booking from "./routes/Booking";
 import Admin from "./routes/Admin";
 import EventManagement from "./routes/EventManagement";
 import Account from "./routes/Account";
+import SeatManagement from "./routes/seatmanagement";
 
 const router = createBrowserRouter([{
     path: "/",
@@ -43,7 +44,10 @@ const router = createBrowserRouter([{
         },{
             path: "/account",
             element: <Account/>,
-        },
+        },{
+            path: "/seatmanagement",
+            element: <SeatManagement/>
+        }
     ],
 },]);
 

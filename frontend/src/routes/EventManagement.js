@@ -1,49 +1,96 @@
 import Container from "../components/Container";
+import BorderedPane from "../components/BorderedPane";
 import Form from "../components/Form";
-import Button from "../components/Button"
+import Button from "../components/Button";
 import { GenerateFakeFlightData } from "../js/utils";
 
-const FLIGHT_DATA = GenerateFakeFlightData(20);
+const FLIGHT_DATA = GenerateFakeFlightData(5);
 
 const FLIGHT_FIELDS = [
     {
+        id: "dest",
         label: "Destination",
         span: true,
         type: "text",
         required: true,
-    },{
+    },
+    {
+        id: "date",
         label: "Date",
         span: true,
         type: "datetime-local",
         required: true,
-    },{
+    },
+    {
+        id: "duration",
         label: "Length (min)",
         span: false,
         type: "number",
         required: true,
-    },{
+    },
+    {
+        id: "stops",
         label: "Stops",
         span: false,
         type: "select",
         options: ["Nonstop", "One", "Two+"],
         required: true,
-    },{
-        label: "Price (HKD)",
+    },
+    {
+        id: "price",
+        label: "Price",
+        span: false,
+        type: "number",
+        required: true,
+    },
+    {
+        id: "first_class_price",
+        label: "1st Class Price",
+        span: false,
+        type: "number",
+        required: true,
+    },
+];
+
+const NEW_EVENT_FORM = [
+    ...FLIGHT_FIELDS,
+    {
+        id: "rows",
+        label: "Rows of Seats",
+        span: false,
+        type: "number",
+        required: true,
+    },
+    {
+        id: "sections",
+        label: "# of Sections",
+        span: false,
+        type: "number",
+        required: true,
+    },
+    {
+        id: "columns_per_section",
+        label: "Width per Section",
         span: true,
         type: "number",
         required: true,
     },
 ];
 
-const Card = ({values}) => {
-    console.log(values);
+const Card = ({ fields, cta, values, children }) => {
     return (
         <div>
-            <Form fields={FLIGHT_FIELDS} cta={"Submit"} values={values} medium>
-                <div className="mt-2">
-                    <Button onClick={() => {console.log("DELETE")}} text={"Delete"} secondary></Button>
-                </div>
+            <Form fields={fields} cta={cta} values={values} medium>
+                <div className="mt-2">{children}</div>
             </Form>
+        </div>
+    );
+};
+
+const NewFlight = () => {
+    return (
+        <div>
+            <Form fields={NEW_EVENT_FORM} cta={"Create New Flight"} large />
         </div>
     );
 };
@@ -51,14 +98,31 @@ const Card = ({values}) => {
 const EventManagement = () => {
     return (
         <Container title={"Flight Management"}>
-            <div className="flex flex-wrap gap-3">
-            {
-                FLIGHT_DATA.map((x) => {
-                    return(<Card
-                        values={Object.values(x)}
-                    />)
-                })
-            }
+            <BorderedPane>
+                <h1 className="text-3xl font-bold">Create a New Flight:</h1>
+            </BorderedPane>
+            <div className="w-[27em]">
+                <NewFlight />
+            </div>
+            <div className="mt-10">
+                <BorderedPane>
+                    <h1 className="text-3xl font-bold">Current Flights:</h1>
+                </BorderedPane>
+            </div>
+            <div className="flex flex-wrap gap-3 mb-10">
+                {FLIGHT_DATA.map((x) => {
+                    return (
+                        <Card fields={FLIGHT_FIELDS} cta={"Submit"} values={x}>
+                            <Button
+                                onClick={() => {
+                                    console.log("DELETE");
+                                }}
+                                text={"Delete"}
+                                secondary
+                            ></Button>
+                        </Card>
+                    );
+                })}
             </div>
         </Container>
     );
