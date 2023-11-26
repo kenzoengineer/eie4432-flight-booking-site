@@ -1,4 +1,4 @@
-const DOMAIN = "http://127.0.0.1:8080";
+const DOMAIN = "/api/routes";
 
 export const POST_LOGIN = () => {return `${DOMAIN}/users/login`};
 
