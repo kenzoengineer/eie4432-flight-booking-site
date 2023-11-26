@@ -64,7 +64,7 @@ const Login = () => {
   }
     return (
     <div className="flex flex-col justify-center items-center py-5 h-[90vh]">
-      <h1 className="text-4xl mb-5 font-bold">
+      <h1 className="text-4xl mb-5 font-bold text-center">
         Welcome to the Flight Booking System.
       </h1>
       <Form
