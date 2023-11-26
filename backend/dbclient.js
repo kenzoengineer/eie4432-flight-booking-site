@@ -1,10 +1,10 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
-import dotenv from 'dotenv';
+import { MongoClient, ServerApiVersion } from "mongodb";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 if (!process.env.CONNECTION_STR) {
-  console.error('CONNECTION_STR is not defined');
+  console.error("CONNECTION_STR is not defined");
   process.exit(1);
 }
 
@@ -23,11 +23,13 @@ async function connect() {
   const date = new Date();
   try {
     await client.connect();
-    await client.db('flight-booking').command({ ping: 1 });
-    console.log(date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString());
-    console.log('Successfully connected to the database!');
+    await client.db("flight-booking").command({ ping: 1 });
+    console.log(
+      date.toLocaleDateString("en-GB") + " " + date.toLocaleTimeString()
+    );
+    console.log("Successfully connected to the database!");
   } catch (err) {
-    console.error('Unable to establish connection to the database!', err);
+    console.error("Unable to establish connection to the database!", err);
     process.exit(1);
   }
 }
