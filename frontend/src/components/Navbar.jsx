@@ -22,7 +22,7 @@ const Navbar = () => {
 
     useEffect(() => {
         const fetchAdminStatus = async () => {
-            const res = await isAdmin();
+            const res = isAdmin();
             setAdminStatus(res);
         };
         fetchAdminStatus();

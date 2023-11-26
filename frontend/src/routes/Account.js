@@ -5,6 +5,7 @@ import {
     GenerateFakeTransactionInformation,
     GenerateFakeUser,
     getLoggedInUser,
+    isAdmin
 } from "../js/utils";
 import BorderedPane from "../components/BorderedPane";
 import Button from "../components/Button";
@@ -81,7 +82,7 @@ const Header = () => {
     );
 };
 
-const Transaction = ({ dest, date, duration, stops, price, seat }) => {
+const Transaction = ({ user, dest, date, duration, stops, price, seat }) => {
     const generateTimeString = (date, duration) => {
         const endTime = new Date(date.getTime() + duration * 60000);
         return endTime.toLocaleTimeString("cn-HK", {
@@ -94,6 +95,7 @@ const Transaction = ({ dest, date, duration, stops, price, seat }) => {
             <div className="flex flex-col justify-center col-span-5">
                 <div className="font-bold text-3xl">{`HKG ➔ ${dest}`}</div>
                 <div>{date.toLocaleDateString("cn-HK", DATE_OPTIONS)}</div>
+                {user && <div className="">Purchaser: {user}</div>}
             </div>
             <div className="flex flex-col justify-center col-span-2">
                 <div>{`${date.toLocaleTimeString(
@@ -132,7 +134,8 @@ const Account = () => {
             setUser(resJson);
         };
         const getTransactions = async () => {
-            const res = await fetch(GET_TRANSACTIONS(getLoggedInUser().userId));
+            const userId = isAdmin() ? "" : getLoggedInUser().userId;
+            const res = await fetch(GET_TRANSACTIONS(userId));
             let resJson = await res.json();
             resJson = resJson.map((x) => {
                 x.flight.date = new Date(x.flight.date);
@@ -227,6 +230,7 @@ const Account = () => {
                     {transactions.length && transactions.map((x, i) => {
                         return (
                             <Transaction
+                                user={x.user ? x.user : null}
                                 key={i}
                                 dest={x.flight.dest}
                                 date={x.flight.date}
