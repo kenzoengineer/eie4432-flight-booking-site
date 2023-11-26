@@ -1,4 +1,4 @@
-const DOMAIN = "/api/";
+const DOMAIN = "/api";
 
 export const POST_LOGIN = () => {return `${DOMAIN}/users/login`};
 
