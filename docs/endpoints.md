@@ -106,6 +106,7 @@ Returns: success message if successful, error message otherwise
 ## Flight Schema 
 ```ts
     {
+        _id: ObjectId
         dest: String,           // e.g. YYZ, NRT, etc.
         date: DateTime,         // e.g. 10-29-2023 3:35AM *SHOULD BE IN UTC!!!!
         duration: Number,       // e.g. 600 *THIS IS IN MINUTES
@@ -152,7 +153,11 @@ Returns:
 ```ts
     {
         flight: Flight,
-        seats: Array<Seat>
+        seats: [{
+            index: Number,
+            occupied: String, // User.username
+            first_class: Boolean,
+        }]
     }
 ```
 
@@ -161,6 +166,7 @@ Returns:
 ```ts
     {
         flight: {
+            _id: 12931927398,
             dest: "YYZ",
             date: new Date(Date.UTC(2023,11,29,0,35)),
             duration: 950,
@@ -170,14 +176,15 @@ Returns:
         },
         seats: [
             {
+                _id: 12931927398,
                 index: 1,
-                occupied: 1238901292,
                 first_class: true
                 flight_id: 1,
             },
             {
+                _id: 12931927396,
                 index: 2,
-                occupied: 0198278,
+                occupied: "alice123",
                 first_class: false, 
                 flight_id: 1,
             },
@@ -215,7 +222,12 @@ Returns: Flight Object if successful, error message otherwise
 
 Updates a flight based on passed in params. Can update any field except for id and seat data. Notifies users who have bought a seat on the flight.
 
-Body: Flight Object
+Body: 
+```ts
+    {
+        [key: string]: any // any of the fields in the flight object
+    }
+```
 
 Returns: Flight Object if successful, error message otherwise
 
@@ -231,6 +243,7 @@ Returns: Success message if successful, error message otherwise
 
 ```ts
     {
+        _id: ObjectId,
         flight_id: Flight._id,
         index: Number, // 0-indexed
         occupied: User._id,
@@ -300,6 +313,7 @@ Returns: Seat Object if successful, error message otherwise -->
 
 ```ts
     {
+        _id: ObjectId,
         user: User._id,
         flight: String,
         seat: String,

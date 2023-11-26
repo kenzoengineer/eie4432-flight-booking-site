@@ -95,12 +95,14 @@ route.post("/login", form.none(), async (req, res) => {
 });
 
 //UPDATE_USER
-route.put("/:id", form.none(), async (req, res) => {
+route.patch("/:id", form.none(), async (req, res) => {
   const params = req.body;
     if (!params)
         return res.status(400).json({ message: "User data is required" });
 
-    const users = client.db(dbName).collection("users");
+  if (!params)
+    return res.status(400).json({ message: "User data is required" });
+  const users = client.db(dbName).collection("users");
 
     params.password = await bcrypt.hash(params.password, 10);
 
