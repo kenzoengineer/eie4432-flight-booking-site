@@ -10,14 +10,12 @@
     - [Flight Schema](#flight-schema)
     - [GET\_ALL\_FLIGHT\_DATA](#get_all_flight_data)
     - [GET\_FLIGHT\_DATA](#get_flight_data)
-    - [GET\_ALL\_SEAT\_DATA](#get_all_seat_data)
     - [CREATE\_FLIGHT](#create_flight)
     - [UPDATE\_FLIGHT](#update_flight)
     - [DELETE\_FLIGHT](#delete_flight)
   - [Seats](#seats)
     - [Seat Schema](#seat-schema)
-    - [GET\_ALL\_SEAT\_DATA](#get_all_seat_data-1)
-    - [UPDATE\_SEAT](#update_seat)
+    - [UPDATE\_FIRST\_CLASS](#update_first_class)
   - [Transactions](#transactions)
     - [Transaction Schema](#transaction-schema)
     - [GET\_ALL\_TRANSACTIONS](#get_all_transactions)
@@ -108,7 +106,7 @@ Returns: success message if successful, error message otherwise
     {
         _id: ObjectId
         dest: String,           // e.g. YYZ, NRT, etc.
-        date: DateTime,         // e.g. 10-29-2023 3:35AM *SHOULD BE IN UTC!!!!
+        date: Date,         // e.g. 10-29-2023 3:35AM *SHOULD BE IN UTC!!!!
         duration: Number,       // e.g. 600 *THIS IS IN MINUTES
         stops: String,          // e.g. Non-stop, One Stop
         sold: Number,           // To determine seats sold in O(1)
@@ -147,7 +145,7 @@ Array\<Flights>
 
 > `GET /flights/:id`
 
-Returns flight data for one flight, and all seats for that flight. 
+Returns flight data for one flight, and all seats for that flight. Seat data will include occupied if the seat is occupied, otherwise it will not have the property
 
 Returns: 
 ```ts
@@ -172,21 +170,21 @@ Returns:
             duration: 950,
             stops: "Nonstop",
             price: 19720,
-            id: "1",
+            rows: 32,
+            sections: 4,
+            columns_per_section: 8,
         },
         seats: [
             {
                 _id: 12931927398,
                 index: 1,
                 first_class: true
-                flight_id: 1,
             },
             {
                 _id: 12931927396,
                 index: 2,
                 occupied: "alice123",
                 first_class: false, 
-                flight_id: 1,
             },
             .
             .
@@ -251,15 +249,6 @@ Returns: Success message if successful, error message otherwise
     }
 ```
 
-## GET_ALL_SEAT_DATA
-
-> `GET /seats/:id`
-
-Returns an array of all seat data for a flight. Flight is given as an id
-
-Returns: Array\<Seat>
-
-
 ### Index based
 
 Seats need to be returned in a very exact order:
@@ -295,18 +284,11 @@ A2 is 5th element
 ## UPDATE_FIRST_CLASS
 > `PATCH /seats/:flight_id`
 
-Updates seats to be first class or not. Takes in an array of seat indexes to update.
+Updates seats to be first class or not. Takes in an array of seat ids to update.
 
-Body: Array of Seat Indexes
+Body: Array of Seat Ids
 
-<!-- ## UPDATE_SEAT
-> `PATCH /seat/:flight_id`
-
-Updates a seat based on passed in params. Can update any field except for id and flight_id, and index
-
-Body: Seat Object
-
-Returns: Seat Object if successful, error message otherwise -->
+Returns: Success message if successful, error message otherwise
 
 # Transactions
 ## Transaction Schema
@@ -315,8 +297,9 @@ Returns: Seat Object if successful, error message otherwise -->
     {
         _id: ObjectId,
         user: User._id,
-        flight: String,
-        seat: String,
+        flight: Flight._id,
+        seat: Seat._id,
+        seat_name: String
         price: Number,
         date: Date,
     }
@@ -362,7 +345,7 @@ Logs are created during login attemps, profile edits, and password changes.
 ```ts
     {
         id: Number,
-        user_id: Number,
+        user_id: User._id,
         date: Date,
         message: String,
     }
