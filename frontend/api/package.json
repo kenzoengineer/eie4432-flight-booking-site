@@ -1,6 +1,7 @@
 {
   "name": "api",
   "version": "1.0.0",
+  "type":"module",
   "description": "backend for flight application",
   "main": "index.js",
   "scripts": {
