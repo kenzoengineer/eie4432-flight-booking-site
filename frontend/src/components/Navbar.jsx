@@ -41,7 +41,6 @@ const Navbar = () => {
                     <div className="text-black inline-block">FBS</div>
                 </NavElement>
                 <NavElement href="flights">Flights</NavElement>
-                <NavElement href="payment/1/1">Payment</NavElement>
                 {adminStatus && <NavElement href="admin">Admin</NavElement>}
                 <NavElement href="account">Account</NavElement>
                 <NavElement href="">

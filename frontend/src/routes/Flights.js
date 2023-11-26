@@ -3,19 +3,7 @@ import Button from "../components/Button";
 import Filter from "../components/Filter";
 import Container from "../components/Container";
 import { GET_ALL_FLIGHT_DATA } from "../js/endpoints";
- 
-const DATE_OPTIONS = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-};
-
-const TIME_OPTIONS = {
-    timeZone: "UTC",
-    hour12: false,
-    hour: "2-digit",
-    minute: "2-digit",
-};
+import { DATE_OPTIONS, TIME_OPTIONS, generateTimeString } from "../js/utils";
 
 const FILTER_DATA = [
     {
@@ -32,13 +20,6 @@ const FILTER_DATA = [
 ];
 
 const Flight = ({ dest, date, duration, stops, price, id }) => {
-    const generateTimeString = (date, duration) => {
-        const endTime = new Date(date.getTime() + duration * 60000);
-        return endTime.toLocaleTimeString("cn-HK", {
-            ...TIME_OPTIONS,
-            timeZoneName: "short",
-        });
-    };
     return (
         <div className="rounded-md border border-grey-200 grid grid-cols-12 px-5 py-3 my-1">
             <div className="flex flex-col justify-center col-span-5">

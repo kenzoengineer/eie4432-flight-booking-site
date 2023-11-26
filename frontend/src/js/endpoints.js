@@ -54,3 +54,5 @@ export const GET_ADMIN = (userId) => {return `${DOMAIN}/users/admin/${userId}`};
 // get all flights a user has paid for
 // returns same as GET_ALL_FLIGHT_DATA except we remove `id` and add `seat`
 export const GET_TRANSACTIONS = (userId) => {return `${DOMAIN}/transactions/${userId}`};
+
+export const POST_TRANSACTION = () => {return `${DOMAIN}/transactions`};
