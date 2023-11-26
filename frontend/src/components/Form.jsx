@@ -1,16 +1,16 @@
-const FormInput = ({ label, type, options, required, span, value }) => {
-    if (type === "datetime-local" && value) {
-        value = value.toISOString().slice(0, value.toISOString().length - 1);
-    } else if (type === "date" && value) {
-        value = value.toISOString().slice(0, value.toISOString().indexOf("T"));
-    }
+const FormInput = ({ formId, label, type, options, required, span, value }) => {
+    // if (type === "datetime-local" && value) {
+    //     value = value.toISOString().slice(0, value.toISOString().length - 1);
+    // } else if (type === "date" && value) {
+    //     value = value.toISOString().slice(0, value.toISOString().indexOf("T"));
+    // }
     return (
         <div
             className={`flex ${
                 type !== "checkbox" ? "flex-col" : "justify-between"
             } mb-3 w-[100%] col-span-1 ${span && "lg:col-span-2"}`}
         >
-            <label htmlFor={label}>
+            <label htmlFor={formId}>
                 {label}
                 {required && <span className="text-red-600">*</span>}
                 {":"}
@@ -18,9 +18,9 @@ const FormInput = ({ label, type, options, required, span, value }) => {
             {type === "select" ? (
                 <select id={label} name={label} required={required} className={`border-solid border-2 border-gray-200 rounded-sm px-1 h-7`}>
                     <option value={""} selected hidden></option>
-                    {options.map((x) => {
+                    {options.map((x, i) => {
                         return (
-                            <option key={x} value={x} selected={value === x}>
+                            <option key={i} value={x} selected={value === x}>
                                 {x}
                             </option>
                         );
@@ -28,8 +28,8 @@ const FormInput = ({ label, type, options, required, span, value }) => {
                 </select>
             ) : (
                 <input
-                    id={label}
-                    name={label}
+                    id={formId}
+                    name={formId}
                     type={type}
                     required={required}
                     defaultValue={value}
@@ -55,7 +55,8 @@ const Form = ({ fields, values, cta, large, medium, onSubmit, children }) => {
                 {fields.map((x, i) => {
                     return (
                         <FormInput
-                            key={x.id}
+                            key={i}
+                            formId={x.id}
                             label={x.label}
                             type={x.type}
                             required={x.required}

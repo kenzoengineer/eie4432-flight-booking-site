@@ -6,14 +6,14 @@ const FilterField = ({ label, type, options }) => {
     return (
         <div className="bg-gray-100 rounded-md flex border border-gray-300 w-min">
             <div className="px-3 py-1 border-r border-gray-300 text-gray-500">
-                <label for={label}>{label}</label>
+                <label htmlFor={label}>{label}</label>
             </div>
             {type === "select" ? (
                 <select id={label} name={label} className="px-1 rounded-r-md">
-                    <option value="" selected hidden></option>
-                    {options.map((x) => {
+                    <option value="" hidden></option>
+                    {options.map((x,i) => {
                         return (
-                            <option key={x} value={x}>
+                            <option key={i} value={x}>
                                 {x}
                             </option>
                         );
@@ -46,6 +46,7 @@ const Filter = ({ filters, filterFn }) => {
                     {filters.map((x) => { //                        ^ will set filters to an empty object
                         return (
                             <FilterField
+                                key={x.label}
                                 label={x.label}
                                 type={x.type}
                                 options={x.options}

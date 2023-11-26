@@ -1,3 +1,24 @@
+import { GET_ADMIN } from "./endpoints";
+
+export const getLoggedInUser = () => {
+    // first check localstorage for a persistent user
+    const localUser = localStorage.getItem("user");
+    if (localUser) return JSON.parse(localUser);
+    
+    const sessionUser = sessionStorage.getItem("user");
+    if (sessionUser) return JSON.parse(sessionUser);
+
+    return null;
+}
+
+export const isAdmin = async () => {
+    const userId = getLoggedInUser().userId;
+    const res = await fetch(GET_ADMIN(userId));
+    return await res.text() === "true";
+}
+
+// everything below this point is just for generating dummy information. we should delete it all when submitting.
+
 export const GenerateFakeFlightData = (count) => {
     let flightData = [];
     const DESTINATIONS = [
@@ -59,30 +80,6 @@ export const GenerateFakeTransactionInformation = (count) => {
     });
     return data;
 }
-
-export const LogInUser = () => {
-    localStorage.setItem(
-        "user",
-        JSON.stringify({
-            id: Math.floor(Math.random() * 5) + 1,
-            keepLoggedIn: true,
-        })
-    );
-};
-
-export const LogInAdmin = () => {
-    localStorage.setItem(
-        "user",
-        JSON.stringify({
-            id: 0,
-            keepLoggedIn: true,
-        })
-    );
-};
-
-export const LogOutUser = () => {
-    localStorage.removeItem("user");
-};
 
 export const GenerateFakeUser = async (id) => {
     const USERNAMES = ["KenzoEngineer", "Ayuen22", "MyUsername", "HelloThere", "JavaScript!"];

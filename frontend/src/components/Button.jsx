@@ -11,9 +11,11 @@ const Button = ({text, secondary, onClick, href, disabled}) => {
         );
     } else {
         return (
-            <div className={`${style} transition-colors px-4 py-2 cursor-pointer rounded-sm flex justify-center ${disabled && "pointer-events-none"}`}>
-                <Link to={href}>{text}</Link>
-            </div>
+            <Link to={href}>
+                <div className={`${style} transition-colors px-4 py-2 cursor-pointer rounded-sm flex justify-center ${disabled && "pointer-events-none"}`}>
+                    {text}
+                </div>
+            </Link>
         );
     }
 }
