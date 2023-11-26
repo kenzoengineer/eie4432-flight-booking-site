@@ -1,5 +1,6 @@
 import express from 'express';
 import client from '../dbclient.js';
+import { ObjectId } from 'mongodb';
 
 const route = express.Router();
 const dbName = process.env.DB;
@@ -47,7 +48,7 @@ route.get('/', async (req, res) => {
       $project: {
         user: '$user.username',
         flight: '$flight.dest',
-        seat: 1,
+        seat_name: 1,
         price: 1,
         date: 1,
       }
@@ -77,7 +78,7 @@ route.get('/:id', async (req, res) => {
     {
       $project: {
         flight: '$flight.dest',
-        seat: 1,
+        seat_name: 1,
         price: 1,
         date: 1,
       }

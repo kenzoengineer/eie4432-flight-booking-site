@@ -15,8 +15,6 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
-});
 
 import usersRoute from './routes/users.js';
 app.use('/users', usersRoute);
@@ -34,7 +32,7 @@ import transactionsRoute from './routes/transactions.js';
 app.use('/transactions', transactionsRoute);
 
 app.use((err, req, res, next) => {
-  console.log("Error Occurred", err);
+  console.log(err);
   res.status(500).json({ message: 'An error occurred: ' + err.message });
 });
 

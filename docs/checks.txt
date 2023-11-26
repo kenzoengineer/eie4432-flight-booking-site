@@ -1,17 +1,46 @@
 
 Users:
+
 Register 
 - works
 - checks if username or email already
 Login user
 - login works
-- todo: check messages work
+- gets messages and removes them from the user
 Update Users
 - update works, wont update if username exists, hashs password and login works after
 
 flights:
+
 create flights
 - works
 - creates right amount of seats with the right index and flight id
+get all flights
+- works
+get one flight
+- works
+- returns seats
+- returns seats with different occupied
+update flight
+- works
+- adds messages to users
+delete
+- works 
+- sends user messages
+- deletes associated seats
 
+transactions:
 
+create
+- works
+- increases sold count, updates occupied of the seat
+get
+- works, doenst return non related to user
+get all
+- works
+
+seats:
+
+toggle first class:
+- works
+- toggles based on list, (true, false) -> (false, true)
