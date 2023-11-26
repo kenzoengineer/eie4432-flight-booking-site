@@ -65,7 +65,6 @@ route.get("/:id", async (req, res, next) => {
       },
     ])
     .toArray();
-  console.log(seatResults);
 
   res.status(200).json({
     flight: result,

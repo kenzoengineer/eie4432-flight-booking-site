@@ -27,7 +27,6 @@ route.patch("/", async (req, res, next) => {
   const result = await seats.updateMany({ _id: { $in: seatIds } }, [
     { $set: { first_class: { $not: "$first_class" } } },
   ]);
-  console.log(result);
   if (!result.acknowledged) {
     next(new Error("Unable to update seats"));
     return;
