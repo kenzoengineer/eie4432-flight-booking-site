@@ -1,6 +1,6 @@
-import express from 'express';
-import session from 'express-session';
-import cors from 'cors';
+catchonst express = require('express');
+const session = require('express-session');
+const cors = require('cors');
 // import mongostore from 'connect-mongo';
 
 const app = express();
