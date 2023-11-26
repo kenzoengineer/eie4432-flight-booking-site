@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Container from "../components/Container";
-import { GET_USER, PUT_USER } from "../js/endpoints";
+import { GET_USER, PUT_USER, GET_TRANSACTIONS } from "../js/endpoints";
 import {
     GenerateFakeTransactionInformation,
     GenerateFakeUser,
@@ -69,8 +69,6 @@ const TIME_OPTIONS = {
     minute: "2-digit",
 };
 
-const FAKE_TRANSACTIONS = [];
-
 const Header = () => {
     return (
         <div className="grid grid-cols-12 px-5 mt-3 text-gray-400">
@@ -121,7 +119,7 @@ const Transaction = ({ dest, date, duration, stops, price, seat }) => {
 
 const Account = () => {
     const [user, setUser] = useState("");
-    const [transactions, setTransactions] = useState(FAKE_TRANSACTIONS);
+    const [transactions, setTransactions] = useState([]);
     const [editing, setEditing] = useState(false);
 
     const navigate = useNavigate();
@@ -134,8 +132,15 @@ const Account = () => {
             setUser(resJson);
         };
         const getTransactions = async () => {
-            // return fetch(GET_TRANSACTIONS(localStorage.getItem("user")));
-            setTransactions(GenerateFakeTransactionInformation(5));
+            const res = await fetch(GET_TRANSACTIONS(getLoggedInUser().userId));
+            let resJson = await res.json();
+            resJson = resJson.map((x) => {
+                x.flight.date = new Date(x.flight.date);
+                return {
+                    ...x,
+                };
+            });
+            setTransactions(resJson);
         };
         getUser();
         getTransactions();
@@ -219,16 +224,16 @@ const Account = () => {
                 </BorderedPane>
                 <div className="flex-col">
                     <Header />
-                    {transactions.map((x, i) => {
+                    {transactions.length && transactions.map((x, i) => {
                         return (
                             <Transaction
                                 key={i}
-                                dest={x.dest}
-                                date={x.date}
-                                duration={x.duration}
-                                stops={x.stops}
+                                dest={x.flight.dest}
+                                date={x.flight.date}
+                                duration={x.flight.duration}
+                                stops={x.flight.stops}
                                 price={x.price}
-                                seat={x.seat}
+                                seat={x.seat_name}
                             />
                         );
                     })}
