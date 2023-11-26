@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Container from "../components/Container";
-import { GET_USER, PUT_USER, GET_TRANSACTIONS } from "../js/endpoints";
+import { GET_USER, PATCH_USER, GET_TRANSACTIONS } from "../js/endpoints";
 import {
     GenerateFakeTransactionInformation,
     GenerateFakeUser,
@@ -154,8 +154,8 @@ const Account = () => {
         console.log(user);
         const formData = new FormData(e.target);
         try {
-            const res = await fetch(PUT_USER(user._id), {
-                method: "PUT",
+            const res = await fetch(PATCH_USER(user._id), {
+                method: "PATCH",
                 body: formData,
             });
             const resJson = await res.json();

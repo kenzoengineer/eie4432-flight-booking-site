@@ -45,7 +45,7 @@ export const POST_BOOKING = () => {return `${DOMAIN}/book`};
 export const GET_USER = (userId) => {return `${DOMAIN}/users/${userId}`};
 
 // updates user profile information
-export const PUT_USER = (userId) => {return `${DOMAIN}/users/${userId}`};
+export const PATCH_USER = (userId) => {return `${DOMAIN}/users/${userId}`};
 
 // get all flights a user has paid for
 // returns same as GET_ALL_FLIGHT_DATA except we remove `id` and add `seat`
