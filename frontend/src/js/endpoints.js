@@ -52,3 +52,5 @@ export const PUT_USER = (userId) => {return `${DOMAIN}/users/${userId}`};
 export const GET_TRANSACTIONS = (userId) => {return `${DOMAIN}/transactions/${userId}`};
 
 export const POST_TRANSACTION = () => {return `${DOMAIN}/transactions`};
+
+export const GET_LOGS = () => {return `${DOMAIN}/logs`};

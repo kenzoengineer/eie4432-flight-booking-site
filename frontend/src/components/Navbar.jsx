@@ -65,9 +65,9 @@ const Navbar = () => {
                             onClick={() => setShowNotif(!showNotif)}
                         />
                         {showNotif && (
-														<div className="absolute mt-4 right-0 z-10 px-5 py-4 w-96 bg-white origin-top-right rounded-md shadow-lg border border-gray-300">
+							<div className="absolute mt-4 right-0 z-10 px-5 py-4 w-96 bg-white origin-top-right rounded-md shadow-lg border border-gray-300">
                                 <p className="text-lg">Notifications</p>
-																<hr className="border-black border-2"/>
+								<hr className="border-black border-2"/>
                                 <div className="max-h-64 overflow-auto divide-y divide-gray-400">
                                     {messages.map((msg, i) => {
                                         return (
