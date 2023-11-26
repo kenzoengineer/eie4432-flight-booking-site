@@ -3,9 +3,6 @@ import Button from "../components/Button";
 import Filter from "../components/Filter";
 import Container from "../components/Container";
 import { GET_ALL_FLIGHT_DATA } from "../js/endpoints";
-import { GenerateFakeFlightData } from "../js/utils";
-
-const FLIGHT_DATA = GenerateFakeFlightData(10);
  
 const DATE_OPTIONS = {
     year: "numeric",
@@ -93,25 +90,27 @@ const Header = () => {
 }
 
 const Flights = () => {
-    const [flightData, setFlightData] = useState(FLIGHT_DATA);
+    const [flightData, setFlightData] = useState([]);
     const [filteredFlightData, setFilteredFlightData] = useState(flightData);
 
     const filterFlightData = (filters) => {
         setFilteredFlightData(
             flightData.filter((x) =>
-                x.dest.includes((filters.Destination ?? "").toUpperCase()) &&
-                (new Date(filters.Date).toString() === "Invalid Date" || new Date(filters.Date).toDateString() === x.date.toDateString()) &&
+                x.dest.toUpperCase().includes((filters.Destination ?? "").toUpperCase()) &&
+                (new Date(filters.Date).toString() === "Invalid Date" || new Date(filters.Date).toDateString() === new Date(x.date).toDateString()) &&
                 x.stops.includes(filters.Stops ?? "")
             )
         );
     };
 
     useEffect(() => {
-        const fetchAllFlightData = () => {
-            // return await fetch(GET_ALL_FLIGHT_DATA());
-            return FLIGHT_DATA;
+        const fetchAllFlightData = async () => {
+            const res = await fetch(GET_ALL_FLIGHT_DATA());
+            const resJson = await res.json();
+            setFlightData(resJson);
+            setFilteredFlightData(resJson);
         };
-        setFlightData(fetchAllFlightData());
+        fetchAllFlightData();
     }, []);
 
     return (
@@ -125,11 +124,11 @@ const Flights = () => {
                     <Flight
                         key={x.id}
                         dest={x.dest}
-                        date={x.date}
+                        date={new Date(x.date)}
                         duration={x.duration}
                         stops={x.stops}
                         price={x.price}
-                        id={x.id}
+                        id={x._id}
                     />
                 );
             })}

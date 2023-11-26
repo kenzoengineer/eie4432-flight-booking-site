@@ -18,6 +18,7 @@ Seat Schema:
 
 // UPDATE_FIRST_CLASS
 route.patch("/", async (req, res, next) => {
+    console.log(req.body);
   const updateSeats = req.body.seats;
   if (!updateSeats)
     return res.status(400).json({ message: "Seat data is required" });

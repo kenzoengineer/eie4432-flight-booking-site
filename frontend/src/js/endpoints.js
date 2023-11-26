@@ -16,7 +16,7 @@ export const GET_FLIGHT_DATA = (flightId) => {return `${DOMAIN}/flights/${flight
 export const POST_FLIGHT_DATA = () => {return `${DOMAIN}/flights`};
 
 // update one flight
-export const PUT_FLIGHT_DATA = () => {return `${DOMAIN}/flights`};
+export const PATCH_FLIGHT_DATA = (flightId) => {return `${DOMAIN}/flights/${flightId}`};
 
 // delete one flight
 export const DELETE_FLIGHT_DATA = (flightId) => {return `${DOMAIN}/flights/${flightId}`};
@@ -30,6 +30,9 @@ export const GET_FLIGHT_SEAT_DATA = (flightId) => {return `${DOMAIN}/seats/fligh
 // gets seat map data by id
 // only has dimensions
 export const GET_SEAT_DATA = (seatMapId) => {return `${DOMAIN}/seats/${seatMapId}`};
+
+// update first class
+export const PATCH_SEAT_FIRST_CLASS = () => {return`${DOMAIN}/seats`};
 
 
 

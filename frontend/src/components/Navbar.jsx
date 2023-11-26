@@ -42,7 +42,6 @@ const Navbar = () => {
                 </NavElement>
                 <NavElement href="flights">Flights</NavElement>
                 <NavElement href="payment/1/1">Payment</NavElement>
-                <NavElement href="booking/1">Booking</NavElement>
                 {adminStatus && <NavElement href="admin">Admin</NavElement>}
                 <NavElement href="account">Account</NavElement>
                 <NavElement href="">

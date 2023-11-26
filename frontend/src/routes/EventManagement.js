@@ -3,6 +3,9 @@ import BorderedPane from "../components/BorderedPane";
 import Form from "../components/Form";
 import Button from "../components/Button";
 import { GenerateFakeFlightData } from "../js/utils";
+import { useEffect, useState } from "react";
+import { GET_ALL_FLIGHT_DATA, POST_FLIGHT_DATA, PATCH_FLIGHT_DATA } from "../js/endpoints";
+import { useNavigate } from "react-router-dom";
 
 const FLIGHT_DATA = GenerateFakeFlightData(5);
 
@@ -78,9 +81,20 @@ const NEW_EVENT_FORM = [
 ];
 
 const Card = ({ fields, cta, values, children }) => {
+    const navigate = useNavigate();
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const res = await fetch(PATCH_FLIGHT_DATA(values["_id"]),{
+            method: "PATCH",  
+            body: formData
+        }); 
+        const resJson = await res.json();
+        navigate(0);
+    }
     return (
         <div>
-            <Form fields={fields} cta={cta} values={values} medium>
+            <Form fields={fields} cta={cta} values={values} onSubmit={onSubmit} medium>
                 <div className="mt-2">{children}</div>
             </Form>
         </div>
@@ -88,14 +102,35 @@ const Card = ({ fields, cta, values, children }) => {
 };
 
 const NewFlight = () => {
+    const navigate = useNavigate();
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const res = await fetch(POST_FLIGHT_DATA(),{
+            method: "POST",
+            body: formData
+        });
+        navigate(0);
+    }
     return (
         <div>
-            <Form fields={NEW_EVENT_FORM} cta={"Create New Flight"} large />
+            <Form fields={NEW_EVENT_FORM} cta={"Create New Flight"} onSubmit={onSubmit} large />
         </div>
     );
 };
 
 const EventManagement = () => {
+    const [flights, setFlights] = useState([]);
+
+    useEffect(() => {
+        const getFlights = async () => {
+            const res = await fetch(GET_ALL_FLIGHT_DATA());
+            const resJson = await res.json();
+            setFlights(resJson);
+        }
+        getFlights();
+    }, [])
+
     return (
         <Container title={"Flight Management"}>
             <BorderedPane>
@@ -110,9 +145,9 @@ const EventManagement = () => {
                 </BorderedPane>
             </div>
             <div className="flex flex-wrap gap-3 mb-10">
-                {FLIGHT_DATA.map((x) => {
+                {flights.map((x,i) => {
                     return (
-                        <Card fields={FLIGHT_FIELDS} cta={"Submit"} values={x}>
+                        <Card key={i} fields={FLIGHT_FIELDS} cta={"Submit"} values={x}>
                             <Button
                                 onClick={() => {
                                     console.log("DELETE");
