@@ -19,11 +19,11 @@ const FILTER_DATA = [
     }
 ];
 
-const Flight = ({ dest, date, duration, stops, price, id }) => {
+const Flight = ({ dest, date, duration, stops, price, id, sold }) => {
     return (
         <div className="rounded-md border border-grey-200 max-md:flex flex-col md:grid md:grid-cols-12 px-5 py-3 my-1">
             <div className="flex flex-col justify-center col-span-5">
-                <div className="font-bold text-3xl">{`HKG ➔ ${dest}`}</div>
+                <div className="font-bold text-3xl flex items-center">{`HKG ➔ ${dest}`}<span className="text-xs text-zinc-400 ml-1">{`(${sold} sold)`}</span></div>
                 <div>{date.toLocaleDateString("cn-HK", DATE_OPTIONS)}</div>
             </div>
             <div className="flex flex-col justify-center col-span-2">
@@ -90,6 +90,7 @@ const Flights = () => {
             const resJson = await res.json();
             setFlightData(resJson);
             setFilteredFlightData(resJson);
+            console.log(resJson);   
         };
         fetchAllFlightData();
     }, []);
@@ -110,6 +111,7 @@ const Flights = () => {
                         stops={x.stops}
                         price={x.price}
                         id={x._id}
+                        sold={`${Math.round((x.sold/(x.columns_per_section * x.sections * x.rows)) * 100)}%`}
                     />
                 );
             })}
