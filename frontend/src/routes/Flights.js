@@ -21,7 +21,7 @@ const FILTER_DATA = [
 
 const Flight = ({ dest, date, duration, stops, price, id }) => {
     return (
-        <div className="rounded-md border border-grey-200 grid grid-cols-12 px-5 py-3 my-1">
+        <div className="rounded-md border border-grey-200 max-md:flex flex-col md:grid md:grid-cols-12 px-5 py-3 my-1">
             <div className="flex flex-col justify-center col-span-5">
                 <div className="font-bold text-3xl">{`HKG ➔ ${dest}`}</div>
                 <div>{date.toLocaleDateString("cn-HK", DATE_OPTIONS)}</div>
@@ -50,20 +50,20 @@ const Flight = ({ dest, date, duration, stops, price, id }) => {
 
 const Header = () => {
     return (
-        <div className="grid grid-cols-12 px-5 mt-3 text-gray-400">
+        <div className="border-gray-200 max-md:flex max-md:gap-1 md:grid md:grid-cols-12 px-5 mt-3 text-gray-400">
             <div className="flex col-span-5">
                 Destination, Date
             </div>
             <div className="flex col-span-2">
-                Time, Duration
+                <span className="md:hidden">{","}</span>Time, Duration
             </div>
             <div className="flex col-span-2">
-                # of Stops
+            <span className="md:hidden">{","}</span># of Stops
             </div>
             <div className="flex col-span-2">
-                Price
+                <span className="md:hidden">{","}</span>Price
             </div>
-            <div className="flex col-span-1">
+            <div className="flex col-span-1 max-md:hidden">
 
             </div>
         </div>

@@ -23,7 +23,6 @@ const Navbar = () => {
     useEffect(() => {
         const fetchAdminStatus = async () => {
             const res = await isAdmin();
-            console.log(res);
             setAdminStatus(res);
         };
         fetchAdminStatus();
@@ -69,7 +68,7 @@ const Navbar = () => {
 														<div className="absolute mt-4 right-0 z-10 px-5 py-4 w-96 bg-white origin-top-right rounded-md shadow-lg border border-gray-300">
                                 <p className="text-lg">Notifications</p>
 																<hr className="border-black border-2"/>
-                                <div className="max-h-64 overflow-scroll divide-y divide-gray-400">
+                                <div className="max-h-64 overflow-auto divide-y divide-gray-400">
                                     {messages.map((msg, i) => {
                                         return (
                                             <div

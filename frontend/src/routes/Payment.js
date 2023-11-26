@@ -12,6 +12,7 @@ import {
     seatLabelFromIndex,
 } from "../js/utils";
 import Ticket from "../components/Ticket";
+import Button from "../components/Button";
 
 const PAYMENT_FIELDS = [
     {
@@ -149,7 +150,7 @@ const Payment = () => {
                         <span className="text-red-500 font-bold">Pending</span>
                     }</div>
                 </Form>
-                <div className={`mt-5 ${paid ? "h-72" : "h-0 opacity-0"} overflow-hidden transition-all`}>
+                <div className={`mt-5 ${paid ? "h-96" : "h-0 opacity-0"} overflow-hidden transition-all`}>
                     <Ticket
                         dest={flightData.flight.dest}
                         name={user.username}
@@ -165,6 +166,8 @@ const Payment = () => {
                             seatidx
                         )}
                     />
+                    <div className="italic text-zinc-400 text-center my-2">Please save the above ticket for your own reference.</div>
+                    <Button href={"/flights"} text={"Back to Flight Listings"}/>
                 </div>
             </div>
         </Container>

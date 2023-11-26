@@ -2,9 +2,9 @@
 
 ## General
 
-- The way I implemented the admin thing sucks, we either:
-  - Don't care users can just change their local storage, and put it there
-  - Put it in Context/Global state
+~~- The way I implemented the admin thing sucks, we either:~~
+    ~~- Don't care users can just change their local storage, and put it there~~
+    ~~- Put it in Context/Global state~~
 
 *low priority below:*
 
@@ -16,7 +16,7 @@
 ## Flights
 
 ~~- Booking button should take flight id, (_id)~~
-~~  - Currently returns undefined~~
+~~- Currently returns undefined~~
 
 ## Booking
 
@@ -36,8 +36,8 @@
 
 ## Messaging Queue
 
-- Front end implementation
-- Fetch on user login
+~~- Front end implementation~~
+~~- Fetch on user login~~
 
 ## Admin > Change Seat Maps
 

@@ -4,7 +4,7 @@ import Form from "../components/Form";
 import Button from "../components/Button";
 import { GenerateFakeFlightData } from "../js/utils";
 import { useEffect, useState } from "react";
-import { GET_ALL_FLIGHT_DATA, POST_FLIGHT_DATA, PATCH_FLIGHT_DATA } from "../js/endpoints";
+import { GET_ALL_FLIGHT_DATA, POST_FLIGHT_DATA, PATCH_FLIGHT_DATA, DELETE_FLIGHT_DATA } from "../js/endpoints";
 import { useNavigate } from "react-router-dom";
 
 const FLIGHT_DATA = GenerateFakeFlightData(5);
@@ -121,6 +121,7 @@ const NewFlight = () => {
 
 const EventManagement = () => {
     const [flights, setFlights] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getFlights = async () => {
@@ -129,7 +130,25 @@ const EventManagement = () => {
             setFlights(resJson);
         }
         getFlights();
-    }, [])
+    }, []);
+
+    const deleteFlight = async (id) => {
+        try {
+            const res = await fetch(DELETE_FLIGHT_DATA(id), {
+                method: "DELETE"
+            });
+            const resJson = await res.json();
+            if (res.status === 400) {
+                alert(`Failed to delete flight: ${resJson.message}`);
+            } else {
+                alert(`Successfully deleted flight ${id}.`);
+                navigate(0);
+            }
+        } catch (err) {
+            console.error("Error: ", err);
+            alert("Failed to delete flight");
+        }
+    }
 
     return (
         <Container title={"Flight Management"}>
@@ -149,9 +168,7 @@ const EventManagement = () => {
                     return (
                         <Card key={i} fields={FLIGHT_FIELDS} cta={"Submit"} values={x}>
                             <Button
-                                onClick={() => {
-                                    console.log("DELETE");
-                                }}
+                                onClick={() => {deleteFlight(x._id)}}
                                 text={"Delete"}
                                 secondary
                             ></Button>
