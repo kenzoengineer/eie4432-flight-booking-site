@@ -48,7 +48,14 @@ route.get("/", async (req, res) => {
       {
         $project: {
           user: "$user.username",
-          flight: "$flight.dest",
+          flight: {
+            "dest": 1,
+            "date": 1,
+            "duration": 1,
+            "stops": 1,
+            "price": 1,
+            "first_class_price": 1
+          },
           seat_name: 1,
           price: 1,
           date: 1,
