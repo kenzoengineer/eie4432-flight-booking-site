@@ -27,12 +27,13 @@ route.patch("/", async (req, res, next) => {
   const result = await seats.updateMany({ _id: { $in: seatIds } }, [
     { $set: { first_class: { $not: "$first_class" } } },
   ]);
+  
   if (!result.acknowledged) {
     next(new Error("Unable to update seats"));
     return;
   }
 
-  res.status(200).json({ message: "Seat updated successfully" });
+    res.status(200).json({ message: "Seat updated successfully" });
 });
 
 export default route;

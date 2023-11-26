@@ -1,5 +1,18 @@
 import { GET_ADMIN } from "./endpoints";
 
+export const DATE_OPTIONS = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+};
+
+export const TIME_OPTIONS = {
+    timeZone: "UTC",
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+};
+
 export const getLoggedInUser = () => {
     // first check localstorage for a persistent user
     const localUser = localStorage.getItem("user");
@@ -15,6 +28,18 @@ export const isAdmin = async () => {
     const userId = getLoggedInUser().userId;
     const res = await fetch(GET_ADMIN(userId));
     return await res.text() === "true";
+}
+
+export const generateTimeString = (date, duration) => {
+    const endTime = new Date(date.getTime() + duration * 60000);
+    return endTime.toLocaleTimeString("cn-HK", {
+        ...TIME_OPTIONS,
+        timeZoneName: "short",
+    });
+};
+
+export const seatLabelFromIndex = (cols, idx) => {
+    return `${String.fromCharCode(65 + idx % cols)}${Math.floor(idx / cols) + 1}`
 }
 
 // everything below this point is just for generating dummy information. we should delete it all when submitting.

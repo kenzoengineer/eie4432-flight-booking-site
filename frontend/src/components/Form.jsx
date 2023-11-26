@@ -16,11 +16,11 @@ const FormInput = ({ formId, label, type, options, required, span, value }) => {
                 {":"}
             </label>
             {type === "select" ? (
-                <select id={label} name={label} required={required} className={`border-solid border-2 border-gray-200 rounded-sm px-1 h-7`}>
-                    <option value={""} selected hidden></option>
+                <select id={formId} name={formId} required={required} defaultValue={value} className={`border-solid border-2 border-gray-200 rounded-sm px-1 h-7`}>
+                    <option value={""} hidden></option>
                     {options.map((x, i) => {
                         return (
-                            <option key={i} value={x} selected={value === x}>
+                            <option key={i} value={x}>
                                 {x}
                             </option>
                         );

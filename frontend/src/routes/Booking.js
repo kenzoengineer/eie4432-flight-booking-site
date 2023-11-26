@@ -2,22 +2,15 @@ import { Link, useParams } from "react-router-dom";
 import BorderedPane from "../components/BorderedPane";
 import Container from "../components/Container";
 import { useEffect, useState } from "react";
-import { GET_FLIGHT_DATA, GET_FLIGHT_SEAT_DATA } from "../js/endpoints";
+import { GET_FLIGHT_DATA } from "../js/endpoints";
 import Button from "../components/Button";
 import SeatMap from "../components/SeatMap";
-import { GenerateFakeFlightData, GenerateFakeSeats } from "../js/utils";
-
-// will be used to draw the plane
-const FAKE_FLIGHT_DATA = GenerateFakeFlightData(1)[0];
-
-// seat information (occupied, price)
-const FAKE_SEAT_DATA = GenerateFakeSeats(FAKE_FLIGHT_DATA);
 
 const Booking = () => {
     const { id } = useParams();
 
-    const [flightData, setFlightData] = useState(FAKE_FLIGHT_DATA);
-    const [seatData, setSeatData] = useState(FAKE_SEAT_DATA);
+    const [flightData, setFlightData] = useState({});
+    const [seatData, setSeatData] = useState([]);
     const [selectedSeat, setSelectedSeat] = useState({idx: -1, label: ""});
 
     const changeSelectedSeat = (idx, label) => {
@@ -38,16 +31,14 @@ const Booking = () => {
     };
 
     useEffect(() => {
-        const fetchFlightData = () => {
-            // return await fetch(GET_FLIGHT_DATA(id))
-            return FAKE_FLIGHT_DATA;
+        const fetchFlightAndSeatsData = async () => {
+            const res = await fetch(GET_FLIGHT_DATA(id));
+            const resJson = await res.json();
+            console.log(resJson);
+            setFlightData(resJson.flight); 
+            setSeatData(resJson.seats);
         };
-        const fetchSeatData = () => {
-            // return await fetch(GET_FLIGHT_SEAT_DATA(id))
-            return FAKE_SEAT_DATA;
-        };
-        setFlightData(fetchFlightData);
-        setSeatData(fetchSeatData);
+        fetchFlightAndSeatsData();
     }, []);
 
     return (
@@ -69,7 +60,9 @@ const Booking = () => {
                 <p>Selected seat:</p>
                 <div className="text-5xl text-white bg-black mx-2 px-2 -skew-x-12">{selectedSeat.idx === -1 ? "--" : selectedSeat.label}</div>
                 <p>For:</p>
-                <div className="text-5xl text-white bg-black mx-2 px-2 -skew-x-12">{"HKD "}{selectedSeat.idx === -1 ? "--" : seatData[selectedSeat.idx].price}</div>
+                <div className="text-5xl text-white bg-black mx-2 px-2 -skew-x-12">{"HKD "}{selectedSeat.idx === -1 ? "--" : (
+                    seatData[selectedSeat.idx].first_class ? flightData.first_class_price : flightData.price
+                )}</div>
             </div>
             <div className="flex justify-center mb-5">
                 <div className={`${selectedSeat.idx === -1 && "cursor-not-allowed"}`}>

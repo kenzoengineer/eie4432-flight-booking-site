@@ -1,10 +1,13 @@
-import express from "express";
-import client from "../dbclient.js";
-import { ObjectId } from "mongodb";
+import express from 'express';
+import client from '../dbclient.js';
+import { ObjectId } from 'mongodb';
+import multer from 'multer';
 
 const route = express.Router();
 const dbName = process.env.DB;
-const collectionName = "flights";
+const collectionName = 'flights';
+
+const form = multer();
 
 /*
 Flight Schema:
@@ -65,7 +68,6 @@ route.get("/:id", async (req, res, next) => {
       },
     ])
     .toArray();
-
   res.status(200).json({
     flight: result,
     seats: seatResults,
@@ -73,7 +75,7 @@ route.get("/:id", async (req, res, next) => {
 });
 
 // CREATE_FLIGHT
-route.post("/", async (req, res, next) => {
+route.post('/', form.none(), async (req, res) => {
   const flights = client.db(dbName).collection(collectionName);
   if (!req.body)
     return res.status(400).json({ message: "Flight data is required" });
@@ -104,7 +106,7 @@ route.post("/", async (req, res, next) => {
 });
 
 // UPDATE_FLIGHT
-route.patch("/:id", async (req, res, next) => {
+route.patch("/:id", form.none(), async (req, res, next) => {
   const flights = client.db(dbName).collection(collectionName);
   if (!req.body)
     return res.status(400).json({ message: "Flight data is required" });

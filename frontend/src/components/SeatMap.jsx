@@ -13,7 +13,7 @@ const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat, editabl
                         changeSelectedSeat(col + (row - 1) * totalCols, label);
                 }}
                 id={`s${col + (row - 1) * totalCols}`}
-                className={`${fill} ${currSeat.firstClass ? "stroke-sky-500" : "stroke-black"} stroke-[3px] ${
+                className={`${fill} ${currSeat.first_class ? "stroke-sky-500" : "stroke-black"} stroke-[3px] ${
                     (currSeat.occupied && !editable) && "cursor-not-allowed"
                 }`}
                 x={x}
@@ -27,7 +27,7 @@ const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat, editabl
                 className="pointer-events-none select-none"
                 x={x + SEAT_RADIUS}
                 y={y + SEAT_RADIUS}
-                fill={currSeat.firstClass ? "#0ea5e9" : "#000"}
+                fill={currSeat.first_class ? "#0ea5e9" : "#000"}
                 textAnchor="middle"
                 alignmentBaseline="central"
             >
@@ -72,7 +72,7 @@ const SeatMap = ({ flightData, seatData, changeSelectedSeat, editable }) => {
 
     return (
         <div className="overflow-x-auto">
-            <svg width={`${(flightData.rows + 1) * (SEAT_DIAMETER + 5)}px`} height={`${(flightData.sections * flightData.columns_per_section) * (SEAT_DIAMETER + 5) + 25 * flightData.sections}px`}>
+            <svg width={`${(Number(flightData.rows) + 1) * (SEAT_DIAMETER + 5)}px`} height={`${(flightData.sections * flightData.columns_per_section) * (SEAT_DIAMETER + 5) + 25 * flightData.sections}px`}>
                 {seatElements}
             </svg>
         </div>
