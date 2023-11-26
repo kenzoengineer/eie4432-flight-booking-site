@@ -164,7 +164,7 @@ const Account = () => {
     return (
         <Container title={"Account"}>
             <BorderedPane>
-                <div className="flex items-center h-64">
+                <div className="flex max-lg:flex-col items-center">
                     <div className="h-48 w-48 p-2 flex items-center justify-center border-2 border-gray-500 rounded-md">
                         <img
                             src={user.profile_pic}
@@ -200,8 +200,8 @@ const Account = () => {
                     <div
                         id={"edit-form"}
                         className={`${
-                            !editing && "opacity-0 pointer-events-none"
-                        } transition-opacity`}
+                            editing ? "max-lg:h-[27em] lg:h-64" : "opacity-0 h-0 pointer-events-none"
+                        } transition-all max-lg:m-5 max-lg:translate-x-3`}
                     >
                         <Form
                             fields={AccountForm}

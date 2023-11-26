@@ -44,12 +44,14 @@ const Login = () => {
         if (e.target[2].checked) {
             localStorage.setItem("user", JSON.stringify({
                 userId: resJson.userId,
-                messages: resJson.messages
+                messages: resJson.messages,
+                isAdmin: formData.get("username") === "admin",
             }));
         } else {
             sessionStorage.setItem("user", JSON.stringify({
                 userId: resJson.userId,
-                messages: resJson.messages
+                messages: resJson.messages,
+                isAdmin: formData.get("username") === "admin",
             }));
         }
         navigate("/flights");

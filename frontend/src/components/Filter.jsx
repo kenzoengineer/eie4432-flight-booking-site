@@ -41,8 +41,8 @@ const Filter = ({ filters, filterFn }) => {
 
     return (
         <form id={FORM_ID} onChange={onFormChange}>
-                <div className="flex justify-between">
-                    <div className="flex gap-x-2 ">
+                <div className="flex justify-between items-center">
+                    <div className="flex gap-x-2 flex-wrap">
                     {filters.map((x) => { //                        ^ will set filters to an empty object
                         return (
                             <FilterField
@@ -54,7 +54,7 @@ const Filter = ({ filters, filterFn }) => {
                         );
                     })}
                     </div>
-                    <Button text={"Reset"} onClick={() => {document.querySelector(`#${FORM_ID}`).reset(); filterFn({});}} secondary/>
+                    <div className="relative"><Button text={"Reset"} onClick={() => {document.querySelector(`#${FORM_ID}`).reset(); filterFn({});}} secondary/></div>
                 </div>
             </form>
     );

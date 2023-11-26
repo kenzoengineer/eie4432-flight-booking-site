@@ -47,10 +47,6 @@ export const GET_USER = (userId) => {return `${DOMAIN}/users/${userId}`};
 // updates user profile information
 export const PUT_USER = (userId) => {return `${DOMAIN}/users/${userId}`};
 
-// returns whether or not the currently logged in user is an admin
-export const GET_ADMIN = (userId) => {return `${DOMAIN}/users/admin/${userId}`};
-
-
 // get all flights a user has paid for
 // returns same as GET_ALL_FLIGHT_DATA except we remove `id` and add `seat`
 export const GET_TRANSACTIONS = (userId) => {return `${DOMAIN}/transactions/${userId}`};

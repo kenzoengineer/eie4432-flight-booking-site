@@ -13,7 +13,7 @@ import Booking from "./routes/Booking";
 import Admin from "./routes/Admin";
 import EventManagement from "./routes/EventManagement";
 import Account from "./routes/Account";
-import SeatManagement from "./routes/seatmanagement";
+import SeatManagement from "./routes/SeatManagement";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([

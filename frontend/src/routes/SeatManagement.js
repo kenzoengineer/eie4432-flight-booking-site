@@ -7,9 +7,6 @@ import { GenerateFakeFlightData, GenerateFakeSeats } from "../js/utils";
 import { GET_ALL_FLIGHT_DATA, GET_FLIGHT_DATA, PATCH_SEAT_FIRST_CLASS } from "../js/endpoints";
 import { useNavigate } from "react-router-dom";
 
-// will be used to draw the plane
-const FAKE_FLIGHT_DATA = GenerateFakeFlightData(3);
-
 const SeatMapEditor = ({flightData, seatData}) => {
     const [seats, setSeats] = useState(seatData);
     const [toggle, setToggle] = useState(new Set());

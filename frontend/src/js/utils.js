@@ -1,5 +1,3 @@
-import { GET_ADMIN } from "./endpoints";
-
 export const DATE_OPTIONS = {
     year: "numeric",
     month: "2-digit",
@@ -24,13 +22,11 @@ export const getLoggedInUser = () => {
     return null;
 }
 
-export const isAdmin = async () => {
+export const isAdmin = () => {
     const loggedInUser = getLoggedInUser();
     if (!loggedInUser)
         return false;
-    const userId = loggedInUser.userId;
-    const res = await fetch(GET_ADMIN(userId));
-    return await res.text() === "true";
+    return loggedInUser.isAdmin;
 }
 
 export const generateTimeString = (date, duration) => {

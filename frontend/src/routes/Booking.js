@@ -34,7 +34,6 @@ const Booking = () => {
         const fetchFlightAndSeatsData = async () => {
             const res = await fetch(GET_FLIGHT_DATA(id));
             const resJson = await res.json();
-            console.log(resJson);
             setFlightData(resJson.flight); 
             setSeatData(resJson.seats);
         };
@@ -56,7 +55,7 @@ const Booking = () => {
                     changeSelectedSeat={changeSelectedSeat}
                 ></SeatMap>
             </div>
-            <div className="flex text-lg justify-center items-center font-bold mb-5">
+            <div className="flex text-lg justify-center items-center font-bold my-5">
                 <p>Selected seat:</p>
                 <div className="text-5xl text-white bg-black mx-2 px-2 -skew-x-12">{selectedSeat.idx === -1 ? "--" : selectedSeat.label}</div>
                 <p>For:</p>
