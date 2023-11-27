@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.886abdc1.css",
-    "main.js": "/static/js/main.d020ce74.js",
-    "static/js/787.06025c96.chunk.js": "/static/js/787.06025c96.chunk.js",
-    "index.html": "/index.html",
-    "main.886abdc1.css.map": "/static/css/main.886abdc1.css.map",
-    "main.d020ce74.js.map": "/static/js/main.d020ce74.js.map",
-    "787.06025c96.chunk.js.map": "/static/js/787.06025c96.chunk.js.map"
+    "main.css": "/eie4432-flight-booking-site/static/css/main.886abdc1.css",
+    "main.js": "/eie4432-flight-booking-site/static/js/main.fc95a9b8.js",
+    "static/js/787.06025c96.chunk.js": "/eie4432-flight-booking-site/static/js/787.06025c96.chunk.js",
+    "index.html": "/eie4432-flight-booking-site/index.html",
+    "main.886abdc1.css.map": "/eie4432-flight-booking-site/static/css/main.886abdc1.css.map",
+    "main.fc95a9b8.js.map": "/eie4432-flight-booking-site/static/js/main.fc95a9b8.js.map",
+    "787.06025c96.chunk.js.map": "/eie4432-flight-booking-site/static/js/787.06025c96.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.886abdc1.css",
-    "static/js/main.d020ce74.js"
+    "static/js/main.fc95a9b8.js"
   ]
 }
