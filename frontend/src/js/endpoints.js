@@ -1,4 +1,4 @@
-const DOMAIN = "http://127.0.0.1:8080";
+const DOMAIN = "http://192.18.148.56:3000";
 
 export const POST_LOGIN = () => {return `${DOMAIN}/users/login`};
 
