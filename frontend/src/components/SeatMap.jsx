@@ -1,7 +1,9 @@
+import { isAdmin } from "../js/utils";
+
 const SEAT_DIAMETER = 50;
 const SEAT_RADIUS = SEAT_DIAMETER / 2;
 
-const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat, editable }) => {
+const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat, editable, setOccupied }) => {
     const currSeat = seatData[col + (row - 1) * totalCols];
     const label = `${String.fromCharCode(65 + col)}${row}`;
     const fill = `${currSeat.occupied ? "fill-red-200" : "fill-white"}`;
@@ -9,13 +11,18 @@ const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat, editabl
         <>
             <rect
                 onClick={() => {
-                    if (!currSeat.occupied || editable)
+                    if (!currSeat.occupied || editable){
                         changeSelectedSeat(col + (row - 1) * totalCols, label);
+                        if (setOccupied) setOccupied(currSeat.occupied)
+                        return;
+                    }
+                    if (setOccupied && currSeat.occupied){
+                        setOccupied(currSeat.occupied)
+                    }
                 }}
                 id={`s${col + (row - 1) * totalCols}`}
-                className={`${fill} ${currSeat.first_class ? "stroke-sky-500" : "stroke-black"} stroke-[3px] ${
-                    (currSeat.occupied && !editable) && "cursor-not-allowed"
-                }`}
+                className={`${fill} ${currSeat.first_class ? "stroke-sky-500" : "stroke-black"} stroke-[3px] 
+                ${(currSeat.occupied && !editable) && !isAdmin() && "cursor-not-allowed"}`}
                 x={x}
                 y={y}
                 width={SEAT_DIAMETER}
@@ -37,7 +44,7 @@ const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat, editabl
     );
 };
 
-const SeatMap = ({ flightData, seatData, changeSelectedSeat, editable }) => {
+const SeatMap = ({ flightData, seatData, changeSelectedSeat, editable, setOccupied }) => {
     const seatElements = [];
 
     const TOTAL_COLUMNS =
@@ -65,6 +72,7 @@ const SeatMap = ({ flightData, seatData, changeSelectedSeat, editable }) => {
                     seatData={seatData}
                     changeSelectedSeat={changeSelectedSeat}
                     editable={editable}
+                    setOccupied={setOccupied}
                 />
             );
         }

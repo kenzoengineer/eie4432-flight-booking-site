@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { GET_FLIGHT_DATA } from "../js/endpoints";
 import Button from "../components/Button";
 import SeatMap from "../components/SeatMap";
+import { isAdmin } from "../js/utils";
 
 const Booking = () => {
     const { id } = useParams();
@@ -12,6 +13,7 @@ const Booking = () => {
     const [flightData, setFlightData] = useState({});
     const [seatData, setSeatData] = useState([]);
     const [selectedSeat, setSelectedSeat] = useState({idx: -1, label: ""});
+    const [occupied, setOccupied] = useState(null);
 
     const changeSelectedSeat = (idx, label) => {
         if (selectedSeat.idx === idx) {
@@ -42,17 +44,29 @@ const Booking = () => {
 
     return (
         <Container title={"Booking"}>
-            <BorderedPane>
-                <div>
-                    <p>Selecting seats for:</p>
-                    <p className="text-lg font-bold">{"HKG -> YYZ"}</p>
-                </div>
-            </BorderedPane>
+            <div className="flex">
+                <BorderedPane>
+                    <div>
+                        <p>Selecting seats for:</p>
+                        <p className="text-lg font-bold">{"HKG -> YYZ"}</p>
+                    </div>
+                </BorderedPane>
+                {
+                    isAdmin() && occupied &&
+                    <div className="ml-5">
+                        <div>
+                            <p>Occupied by:</p>
+                            <p className="text-lg font-bold">{occupied}</p>
+                        </div>
+                    </div>
+                }
+            </div>
             <div className="flex justify-center">
                 <SeatMap
                     flightData={flightData}
                     seatData={seatData}
                     changeSelectedSeat={changeSelectedSeat}
+                    setOccupied={setOccupied}
                 ></SeatMap>
             </div>
             <div className="flex text-lg justify-center items-center font-bold my-5">
