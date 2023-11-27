@@ -18,7 +18,7 @@ const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat, editabl
                 }}
                 id={`s${col + (row - 1) * totalCols}`}
                 className={`${fill} ${currSeat.first_class ? "stroke-sky-500" : "stroke-black"} stroke-[3px] 
-                ${(currSeat.occupied && !editable) && !isAdmin() && "cursor-not-allowed"}`}
+                ${(currSeat.occupied && !editable)  && "cursor-not-allowed"}`}
                 x={x}
                 y={y}
                 width={SEAT_DIAMETER}
