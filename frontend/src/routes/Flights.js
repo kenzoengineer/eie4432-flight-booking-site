@@ -1,3 +1,4 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Filter from "../components/Filter";
@@ -78,6 +79,7 @@ const Flights = () => {
         setFilteredFlightData(
             flightData.filter((x) =>
                 x.dest.toUpperCase().includes((filters.Destination ?? "").toUpperCase()) &&
+                // invalid date (incomplete filtering) shouldn't count
                 (new Date(filters.Date).toString() === "Invalid Date" || new Date(filters.Date).toDateString() === new Date(x.date).toDateString()) &&
                 x.stops.includes(filters.Stops ?? "")
             )
@@ -86,11 +88,14 @@ const Flights = () => {
 
     useEffect(() => {
         const fetchAllFlightData = async () => {
-            const res = await fetch(GET_ALL_FLIGHT_DATA());
-            const resJson = await res.json();
-            setFlightData(resJson);
-            setFilteredFlightData(resJson);
-            console.log(resJson);   
+            try {
+                const res = await fetch(GET_ALL_FLIGHT_DATA());
+                const resJson = await res.json();
+                setFlightData(resJson);
+                setFilteredFlightData(resJson); 
+            } catch (err) {
+                console.error(err);
+            }
         };
         fetchAllFlightData();
     }, []);

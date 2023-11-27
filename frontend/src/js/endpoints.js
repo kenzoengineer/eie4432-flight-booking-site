@@ -1,9 +1,13 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 const DOMAIN = "https://eie4432-flight-booking-site.onrender.com";
 
+// attempt to login
 export const POST_LOGIN = () => {return `${DOMAIN}/users/login`};
 
+// create account
 export const POST_REGISTER = () => {return `${DOMAIN}/users/register`};
 
+// forgot my password
 export const POST_FORGOT = () => {return `${DOMAIN}/users/forgot`};
 
 // array of all flights
@@ -51,6 +55,8 @@ export const PATCH_USER = (userId) => {return `${DOMAIN}/users/${userId}`};
 // returns same as GET_ALL_FLIGHT_DATA except we remove `id` and add `seat`
 export const GET_TRANSACTIONS = (userId) => {return `${DOMAIN}/transactions/${userId}`};
 
+// create a new transaction
 export const POST_TRANSACTION = () => {return `${DOMAIN}/transactions`};
 
+// get all logs for admin
 export const GET_LOGS = () => {return `${DOMAIN}/logs`};

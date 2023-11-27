@@ -1,11 +1,11 @@
-import { Link, useParams } from "react-router-dom";
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
+import { useParams } from "react-router-dom";
 import BorderedPane from "../components/BorderedPane";
 import Container from "../components/Container";
 import { useEffect, useState } from "react";
 import { GET_FLIGHT_DATA } from "../js/endpoints";
 import Button from "../components/Button";
 import SeatMap from "../components/SeatMap";
-import { isAdmin } from "../js/utils";
 
 const Booking = () => {
     const { id } = useParams();
@@ -13,7 +13,6 @@ const Booking = () => {
     const [flightData, setFlightData] = useState({});
     const [seatData, setSeatData] = useState([]);
     const [selectedSeat, setSelectedSeat] = useState({idx: -1, label: ""});
-    const [occupied, setOccupied] = useState(null);
 
     const changeSelectedSeat = (idx, label) => {
         if (selectedSeat.idx === idx) {
@@ -34,13 +33,17 @@ const Booking = () => {
 
     useEffect(() => {
         const fetchFlightAndSeatsData = async () => {
-            const res = await fetch(GET_FLIGHT_DATA(id));
-            const resJson = await res.json();
-            setFlightData(resJson.flight); 
-            setSeatData(resJson.seats);
+            try {
+                const res = await fetch(GET_FLIGHT_DATA(id));
+                const resJson = await res.json();
+                setFlightData(resJson.flight); 
+                setSeatData(resJson.seats);
+            } catch (err) {
+                console.error(err);
+            }
         };
         fetchFlightAndSeatsData();
-    }, []);
+    }, [id]);
 
     return (
         <Container title={"Booking"}>
@@ -57,7 +60,6 @@ const Booking = () => {
                     flightData={flightData}
                     seatData={seatData}
                     changeSelectedSeat={changeSelectedSeat}
-                    setOccupied={setOccupied}
                 ></SeatMap>
             </div>
             <div className="flex text-lg justify-center items-center font-bold my-5">

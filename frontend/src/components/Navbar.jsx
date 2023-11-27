@@ -1,7 +1,8 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { getLoggedInUser, isAdmin } from "../js/utils";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const NavElement = ({ href, children }) => {
     return (
@@ -14,31 +15,25 @@ const NavElement = ({ href, children }) => {
 const Navbar = () => {
     const navigate = useNavigate();
 
-    const [adminStatus, setAdminStatus] = useState(false);
+    const [adminStatus,] = useState(isAdmin());
     const [showNotif, setShowNotif] = useState(false);
     const messages = getLoggedInUser()?.messages ?? [];
     const hasNotif = messages.length > 0;
     const bellSrc = hasNotif ? "/imgs/notif-bell.svg" : "/imgs/bell.svg";
-
-    useEffect(() => {
-        const fetchAdminStatus = async () => {
-            const res = isAdmin();
-            setAdminStatus(res);
-        };
-        fetchAdminStatus();
-    }, []);
 
     const logOut = () => {
         sessionStorage.removeItem("user");
         localStorage.removeItem("user");
         navigate("/login");
     };
+
     return (
         <nav className="bg-gray-100 flex justify-center items-center text-lg py-2">
             <ul>
                 <NavElement href="/">
                     <img
                         src="/imgs/airplane_logo.svg"
+                        alt={"navbar_badge"}
                         width={30}
                         className="inline-block"
                     />
@@ -59,15 +54,16 @@ const Navbar = () => {
                 <li className="py-2 px-5 inline-block ">
                     <div className="relative inline-block">
                         <img
+                            alt={"notification-bell"}
                             src={bellSrc}
                             width={30}
                             className="inline-block hover:cursor-pointer"
                             onClick={() => setShowNotif(!showNotif)}
                         />
                         {showNotif && (
-							<div className="absolute mt-4 right-0 z-10 px-5 py-4 w-96 bg-white origin-top-right rounded-md shadow-lg border border-gray-300">
+                            <div className="absolute mt-4 right-0 z-10 px-5 py-4 w-96 bg-white origin-top-right rounded-md shadow-lg border border-gray-300">
                                 <p className="text-lg">Notifications</p>
-								<hr className="border-black border-2"/>
+                                <hr className="border-black border-2" />
                                 <div className="max-h-64 overflow-auto divide-y divide-gray-400">
                                     {messages.map((msg, i) => {
                                         return (
@@ -80,7 +76,7 @@ const Navbar = () => {
                                         );
                                     })}
                                 </div>
-														</div>
+                            </div>
                         )}
                     </div>
                 </li>

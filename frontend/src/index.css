@@ -1,3 +1,4 @@
+/* Ken Jiang - 23012932X | Anson Yuen - 23012962X */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,10 +6,6 @@
 body {
     margin: 0;
     font-family: "Open Sans", sans-serif;
-}
-
-#root {
-   
 }
 
 #outlet-content {

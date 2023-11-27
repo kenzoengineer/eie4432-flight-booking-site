@@ -1,12 +1,8 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 import { useEffect, useState } from "react";
 import Container from "../components/Container";
 import { GET_USER, PATCH_USER, GET_TRANSACTIONS } from "../js/endpoints";
-import {
-    GenerateFakeTransactionInformation,
-    GenerateFakeUser,
-    getLoggedInUser,
-    isAdmin
-} from "../js/utils";
+import { DATE_OPTIONS, TIME_OPTIONS, generateTimeString, getLoggedInUser, isAdmin } from "../js/utils";
 import BorderedPane from "../components/BorderedPane";
 import Button from "../components/Button";
 import Form from "../components/Form";
@@ -57,19 +53,6 @@ const AccountForm = [
     },
 ];
 
-const DATE_OPTIONS = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-};
-
-const TIME_OPTIONS = {
-    timeZone: "UTC",
-    hour12: false,
-    hour: "2-digit",
-    minute: "2-digit",
-};
-
 const Header = () => {
     return (
         <div className="grid grid-cols-12 px-5 mt-3 text-gray-400">
@@ -83,13 +66,6 @@ const Header = () => {
 };
 
 const Transaction = ({ user, dest, date, duration, stops, price, seat }) => {
-    const generateTimeString = (date, duration) => {
-        const endTime = new Date(date.getTime() + duration * 60000);
-        return endTime.toLocaleTimeString("cn-HK", {
-            ...TIME_OPTIONS,
-            timeZoneName: "short",
-        });
-    };
     return (
         <div className="rounded-md border border-grey-200 grid grid-cols-12 px-5 py-3 my-1">
             <div className="flex flex-col justify-center col-span-5">
@@ -128,22 +104,30 @@ const Account = () => {
 
     useEffect(() => {
         const getUser = async () => {
-            const res = await fetch(GET_USER(getLoggedInUser().userId));
-            let resJson = await res.json();
-            delete resJson.password;
-            setUser(resJson);
+            try {
+                const res = await fetch(GET_USER(getLoggedInUser().userId));
+                let resJson = await res.json();
+                delete resJson.password;
+                setUser(resJson);
+            } catch (err) {
+                console.error(err);
+            } 
         };
         const getTransactions = async () => {
-            const userId = isAdmin() ? "" : getLoggedInUser().userId;
-            const res = await fetch(GET_TRANSACTIONS(userId));
-            let resJson = await res.json();
-            resJson = resJson.map((x) => {
-                x.flight.date = new Date(x.flight.date);
-                return {
-                    ...x,
-                };
-            });
-            setTransactions(resJson);
+            try {
+                const userId = isAdmin() ? "" : getLoggedInUser().userId;
+                const res = await fetch(GET_TRANSACTIONS(userId));
+                let resJson = await res.json();
+                resJson = resJson.map((x) => {
+                    x.flight.date = new Date(x.flight.date);
+                    return {
+                        ...x,
+                    };
+                });
+                setTransactions(resJson);
+            } catch (err) {
+                console.error(err);
+            }
         };
         getUser();
         getTransactions();
@@ -166,6 +150,7 @@ const Account = () => {
             navigate(0);
         } catch (err) {
             console.error(err);
+            alert("Error editing account information");
         }
     };
 
@@ -176,13 +161,13 @@ const Account = () => {
                     <div className="h-48 w-48 p-2 flex items-center justify-center border-2 border-gray-500 rounded-md">
                         <img
                             src={user.profile_pic}
+                            alt="profile"
                             className="max-h-[11em] max-w-[11em]"
                         ></img>
                     </div>
                     <div className="ml-5 w-96">
                         <span className="text-sm text-gray-500">
-                            {" #"}
-                            {user._id}
+                            {` #${user._id}`}
                         </span>
                         <h1 className="text-5xl font-bold mb-1">
                             {user.username}
@@ -190,10 +175,7 @@ const Account = () => {
                         <p>Email: {user.email}</p>
                         <p>Gender: {user.gender}</p>
                         <p className="mb-2">
-                            Birthday:{" "}
-                            {(
-                                new Date(user.birthdate) ?? new Date()
-                            ).toDateString()}
+                            {`Birthday: ${(new Date(user.birthdate) ?? new Date()).toDateString()}`}
                         </p>
                         <div className="w-24">
                             <Button
