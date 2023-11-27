@@ -74,7 +74,7 @@ const Login = () => {
       >
         <div className="text-gray-400 underline text-sm flex justify-center gap-x-2 mt-2">
           <Link to={"/signup"}>Sign Up</Link>
-          <div>Forgot Password?</div>
+          <Link to={"/forgot"}>Forgot Password?</Link>
         </div>
       </Form>
     </div>

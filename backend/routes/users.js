@@ -33,6 +33,26 @@ route.get("/:id", async (req, res) => {
   res.status(400).json({ message: "not found" });
 });
 
+// forgot password route (post), take username and password as input, check username, if correct, update password
+route.post("/forgot", form.none(), async (req, res) => {
+  const user = req.body;
+  if (!user) return res.status(400).json({ message: "User data is required" });
+  const users = client.db(dbName).collection("users");
+  const result = await users.findOne({ username: user.username });
+  if (result) {
+    //update password
+    user.password = await bcrypt.hash(user.password, 10);
+    const updateResult = await users.updateOne(
+      { username: user.username },
+      { $set: { password: user.password } }
+    );
+    return res.status(200).json({ message: "Password updated successfully" });
+  } else {
+    res.status(400).json({ message: "No user with that username" });
+  }
+}
+);
+
 route.get("/admin/:id", async (req, res) => {
     const users = client.db(dbName).collection("users");
     const adminUser = await users.findOne({username: "admin"});

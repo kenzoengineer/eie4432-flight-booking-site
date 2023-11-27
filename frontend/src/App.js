@@ -2,7 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const NO_FOOTER = new Set(["/login", "/signup"]);
+const NO_FOOTER = new Set(["/login", "/signup", "/forgot"]);
 
 function App() {
   return (

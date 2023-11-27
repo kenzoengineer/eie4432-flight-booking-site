@@ -4,7 +4,7 @@ export const POST_LOGIN = () => {return `${DOMAIN}/users/login`};
 
 export const POST_REGISTER = () => {return `${DOMAIN}/users/register`};
 
-
+export const POST_FORGOT = () => {return `${DOMAIN}/users/forgot`};
 
 // array of all flights
 export const GET_ALL_FLIGHT_DATA = () => {return `${DOMAIN}/flights`};
