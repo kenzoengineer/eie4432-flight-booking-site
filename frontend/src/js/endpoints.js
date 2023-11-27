@@ -1,4 +1,4 @@
-const DOMAIN = "http://192.18.148.56:3000";
+const DOMAIN = "https://eie4432-flight-booking-site.onrender.com";
 
 export const POST_LOGIN = () => {return `${DOMAIN}/users/login`};
 
