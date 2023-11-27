@@ -6,10 +6,12 @@ import SeatMap from "../components/SeatMap";
 import { GenerateFakeFlightData, GenerateFakeSeats } from "../js/utils";
 import { GET_ALL_FLIGHT_DATA, GET_FLIGHT_DATA, PATCH_SEAT_FIRST_CLASS } from "../js/endpoints";
 import { useNavigate } from "react-router-dom";
+import { isAdmin } from "../js/utils";
 
 const SeatMapEditor = ({flightData, seatData}) => {
     const [seats, setSeats] = useState(seatData);
-    const [toggle, setToggle] = useState(new Set());
+    const [toggle, setToggle] = useState(new Set()); 
+    const [occupied, setOccupied] = useState(null);
 
     const navigate = useNavigate();
 
@@ -50,11 +52,21 @@ const SeatMapEditor = ({flightData, seatData}) => {
     return (
         <BorderedPane>
             <div className="font-bold text-3xl">{`HKG ➔ ${flightData.dest} // ${new Date(flightData.date).toUTCString()}`}</div>
+                {
+                    isAdmin() &&
+                    <div className={`ml-5 h-2`}>
+                        <div className={`${occupied ? "" : "hidden"}`}>
+                            <span>Occupied by: </span>
+                            <span className="text-md font-bold">{occupied}</span>
+                        </div>
+                    </div>
+                }
             <SeatMap
                 flightData={flightData}
                 seatData={seats}
                 changeSelectedSeat={x => toggleFirstClass(x)}
                 editable
+                setOccupied={setOccupied}
             />
             <div className="w-fit flex items-center mt-2">
                 <Button text={"Save Changes"} onClick={submitChanges} secondary={!toggle.size} disabled={!toggle.size}></Button>

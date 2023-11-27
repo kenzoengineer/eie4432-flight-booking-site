@@ -51,15 +51,6 @@ const Booking = () => {
                         <p className="text-lg font-bold">{"HKG -> YYZ"}</p>
                     </div>
                 </BorderedPane>
-                {
-                    isAdmin() && occupied &&
-                    <div className="ml-5">
-                        <div>
-                            <p>Occupied by:</p>
-                            <p className="text-lg font-bold">{occupied}</p>
-                        </div>
-                    </div>
-                }
             </div>
             <div className="flex justify-center">
                 <SeatMap

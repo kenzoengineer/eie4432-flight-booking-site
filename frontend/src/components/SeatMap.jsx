@@ -13,11 +13,7 @@ const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat, editabl
                 onClick={() => {
                     if (!currSeat.occupied || editable){
                         changeSelectedSeat(col + (row - 1) * totalCols, label);
-                        if (setOccupied) setOccupied(currSeat.occupied)
                         return;
-                    }
-                    if (setOccupied && currSeat.occupied){
-                        setOccupied(currSeat.occupied)
                     }
                 }}
                 id={`s${col + (row - 1) * totalCols}`}
@@ -29,6 +25,16 @@ const Seat = ({ x, y, row, col, totalCols, seatData, changeSelectedSeat, editabl
                 height={SEAT_DIAMETER}
                 rx="10"
                 ry="10"
+                onMouseOver={() => {
+                    if(setOccupied && currSeat.occupied) {
+                        setOccupied(currSeat.occupied);
+                    }
+                }}
+                onMouseOut={() => {
+                    if(setOccupied) {
+                        setOccupied(null);
+                    }
+                }}
             ></rect>
             <text
                 className="pointer-events-none select-none"
