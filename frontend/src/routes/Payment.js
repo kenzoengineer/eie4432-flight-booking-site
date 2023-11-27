@@ -1,3 +1,4 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 import Container from "../components/Container";
 import BorderedPane from "../components/BorderedPane";
 import Form from "../components/Form";
@@ -56,21 +57,34 @@ const Payment = () => {
         },
         seats: [],
     });
-
     const [user, setUser] = useState({});
-
     const [paid, setPaid] = useState(false);
 
     useEffect(() => {
         const fetchFlightData = async () => {
-            const res = await fetch(GET_FLIGHT_DATA(flightid));
-            const resJson = await res.json();
-            setFlightData(resJson);
+            try {
+                const res = await fetch(GET_FLIGHT_DATA(flightid));
+                const resJson = await res.json();
+                if (res.status === 400) {
+                    console.error(resJson.message);
+                }
+                setFlightData(resJson);
+            } catch (err) {
+                console.error(err);
+            }
         };
 
         const fetchUser = async () => {
-            const res = await fetch(GET_USER(getLoggedInUser().userId));
-            setUser(await res.json());
+            try {
+                const res = await fetch(GET_USER(getLoggedInUser().userId));
+                const resJson = await res.json();
+                if (res.status === 400) {
+                    console.error(resJson.message);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+            setUser();
         };
 
         fetchFlightData();
@@ -154,17 +168,9 @@ const Payment = () => {
                     <Ticket
                         dest={flightData.flight.dest}
                         name={user.username}
-                        date={new Date(
-                            flightData.flight.date
-                        ).toLocaleDateString("cn-HK", DATE_OPTIONS)}
-                        time={new Date(
-                            flightData.flight.date
-                        ).toLocaleTimeString("cn-HK", TIME_OPTIONS)}
-                        seat={seatLabelFromIndex(
-                            flightData.flight.sections *
-                                flightData.flight.columns_per_section,
-                            seatidx
-                        )}
+                        date={new Date(flightData.flight.date).toLocaleDateString("cn-HK", DATE_OPTIONS)}
+                        time={new Date(flightData.flight.date).toLocaleTimeString("cn-HK", TIME_OPTIONS)}
+                        seat={seatLabelFromIndex(flightData.flight.sections * flightData.flight.columns_per_section, seatidx)}
                     />
                     <div className="italic text-zinc-400 text-center my-2">Please save the above ticket for your own reference.</div>
                     <Button href={"/flights"} text={"Back to Flight Listings"}/>

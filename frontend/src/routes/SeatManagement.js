@@ -1,9 +1,9 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 import { useEffect, useState } from "react";
 import BorderedPane from "../components/BorderedPane";
 import Button from "../components/Button";
 import Container from "../components/Container";
 import SeatMap from "../components/SeatMap";
-import { GenerateFakeFlightData, GenerateFakeSeats } from "../js/utils";
 import { GET_ALL_FLIGHT_DATA, GET_FLIGHT_DATA, PATCH_SEAT_FIRST_CLASS } from "../js/endpoints";
 import { useNavigate } from "react-router-dom";
 import { isAdmin } from "../js/utils";
@@ -32,20 +32,25 @@ const SeatMapEditor = ({flightData, seatData}) => {
 
     const submitChanges = async () => {
         const toggleArr = Array.from(toggle);
-        const res = await fetch(PATCH_SEAT_FIRST_CLASS(), {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                seats: toggleArr
-            })
-        });
-        const resJson = await res.json();
-        if (res.status === 400) {
-            alert(resJson.message);
-        } else {
+        try {
+            const res = await fetch(PATCH_SEAT_FIRST_CLASS(), {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    seats: toggleArr
+                })
+            });
+            const resJson = await res.json();
+            if (res.status === 400) {
+                alert(resJson.message);
+                return;
+            }
             navigate(0);
+        } catch (err) {
+            console.error(err);
+            alert("Fatal error editing seat data.");
         }
     }
 

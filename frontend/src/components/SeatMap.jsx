@@ -1,5 +1,4 @@
-import { isAdmin } from "../js/utils";
-
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 const SEAT_DIAMETER = 50;
 const SEAT_RADIUS = SEAT_DIAMETER / 2;
 

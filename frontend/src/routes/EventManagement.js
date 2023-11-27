@@ -1,13 +1,11 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 import Container from "../components/Container";
 import BorderedPane from "../components/BorderedPane";
 import Form from "../components/Form";
 import Button from "../components/Button";
-import { GenerateFakeFlightData } from "../js/utils";
 import { useEffect, useState } from "react";
 import { GET_ALL_FLIGHT_DATA, POST_FLIGHT_DATA, PATCH_FLIGHT_DATA, DELETE_FLIGHT_DATA } from "../js/endpoints";
 import { useNavigate } from "react-router-dom";
-
-const FLIGHT_DATA = GenerateFakeFlightData(5);
 
 const FLIGHT_FIELDS = [
     {
@@ -84,13 +82,24 @@ const Card = ({ fields, cta, values, children }) => {
     const navigate = useNavigate();
     const onSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
-        const res = await fetch(PATCH_FLIGHT_DATA(values["_id"]),{
-            method: "PATCH",  
-            body: formData
-        }); 
-        const resJson = await res.json();
-        navigate(0);
+        try {
+            const formData = new FormData(e.target);
+            const res = await fetch(PATCH_FLIGHT_DATA(values["_id"]),{
+                method: "PATCH",  
+                body: formData
+            }); 
+            const resJson = await res.json();
+
+            if (res.status === 400) {
+                alert(`Error editing flight: ${resJson.message}`);
+                return;
+            }
+
+            navigate(0);
+        } catch (err) {
+            console.error(err);
+            alert("Fatal error editing flight.")
+        }
     }
     return (
         <div>
@@ -105,12 +114,23 @@ const NewFlight = () => {
     const navigate = useNavigate();
     const onSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
-        const res = await fetch(POST_FLIGHT_DATA(),{
-            method: "POST",
-            body: formData
-        });
-        navigate(0);
+        try {
+            const formData = new FormData(e.target);
+            const res = await fetch(POST_FLIGHT_DATA(),{
+                method: "POST",
+                body: formData
+            });
+            const resJson = await res.json();
+            if (res.status === 400) {
+                alert(`Error creating flight: ${resJson.message}`);
+                return;
+            }
+
+            navigate(0);
+        } catch (err) {
+            console.error(err);
+            alert("Fatal error creating new flight.");
+        }
     }
     return (
         <div>
@@ -125,9 +145,13 @@ const EventManagement = () => {
 
     useEffect(() => {
         const getFlights = async () => {
-            const res = await fetch(GET_ALL_FLIGHT_DATA());
-            const resJson = await res.json();
-            setFlights(resJson);
+            try {
+                const res = await fetch(GET_ALL_FLIGHT_DATA());
+                const resJson = await res.json();
+                setFlights(resJson);
+            } catch (err) {
+                console.error(err);
+            }
         }
         getFlights();
     }, []);

@@ -1,21 +1,22 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const NO_FOOTER = new Set(["/login", "/signup", "/forgot"]);
+const CONTENT_ONLY = new Set(["/login", "/signup", "/forgot"]);
 
 function App() {
   return (
     <div className="App flex flex-col">
         {
-            !NO_FOOTER.has(useLocation().pathname) && 
+            !CONTENT_ONLY.has(useLocation().pathname) && 
             <Navbar/>
         }
         <span id="outlet-content">
             <Outlet/>
         </span>
         {
-            !NO_FOOTER.has(useLocation().pathname) && 
+            !CONTENT_ONLY.has(useLocation().pathname) && 
             <Footer/>
         }
     </div>

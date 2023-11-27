@@ -1,5 +1,6 @@
-import express from 'express';
-import client from '../dbclient.js';
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
+import express from "express";
+import client from "../dbclient.js";
 
 const route = express.Router();
 const dbName = process.env.DB;
@@ -13,10 +14,10 @@ Log Schema:
   }
 */
 
-route.get('/', async (req, res) => {
-  const logs = client.db(dbName).collection('logs');
-  const result = await logs.find().toArray();
-  res.status(200).json(result);
+route.get("/", async (req, res) => {
+    const logs = client.db(dbName).collection("logs");
+    const result = await logs.find().toArray();
+    res.status(200).json(result);
 });
 
 export default route;

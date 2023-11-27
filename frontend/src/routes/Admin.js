@@ -1,3 +1,4 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 import BorderedPane from "../components/BorderedPane";
 import Button from "../components/Button";
 import Container from "../components/Container";
@@ -10,19 +11,23 @@ const Admin = () => {
     const [logs, setLogs] = useState([]);
     useEffect(() => {
         const getLogs = async () => {
-            const res = await fetch(GET_LOGS());
-            let resJson = await res.json();
-            resJson = resJson.reverse();
-            resJson = resJson.map((x) => {
-                const date = new Date(x.date);
-                x.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-                return {
-                    ...x,
-                };
-            });
-            setLogs(resJson);
+            try {
+                const res = await fetch(GET_LOGS());
+                let resJson = await res.json();
+                resJson = resJson.reverse();
+                resJson = resJson.map((x) => {
+                    const date = new Date(x.date);
+                    x.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+                    return {
+                        ...x,
+                    };
+                });
+                setLogs(resJson);
+            } catch (err) {
+                console.error(err);
+            }
         }
-        getLogs()
+        getLogs();
     },[]);
 
     return (

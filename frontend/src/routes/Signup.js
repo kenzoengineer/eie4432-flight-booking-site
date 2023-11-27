@@ -1,3 +1,4 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import Form from "../components/Form";
@@ -51,7 +52,6 @@ const SignupForm = [
 const Signup = () => {
     const navigate = useNavigate();
     const onSubmit = async (e) => {
-
         e.preventDefault();
         const formData = new FormData(e.target);
         try {

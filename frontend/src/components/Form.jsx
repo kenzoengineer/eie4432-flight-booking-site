@@ -1,9 +1,5 @@
+// Ken Jiang - 23012932X | Anson Yuen - 23012962X
 const FormInput = ({ formId, label, type, options, required, span, value }) => {
-    // if (type === "datetime-local" && value) {
-    //     value = value.toISOString().slice(0, value.toISOString().length - 1);
-    // } else if (type === "date" && value) {
-    //     value = value.toISOString().slice(0, value.toISOString().indexOf("T"));
-    // }
     return (
         <div
             className={`flex ${
@@ -46,7 +42,6 @@ const Form = ({ fields, values, cta, large, medium, onSubmit, children }) => {
     return (
         <div className="flex flex-col bg-gray-100 p-5 rounded-md">
             <form
-                // this will be action={onSubmit} when we have a working backend
                 onSubmit={onSubmit}
                 className={`max-lg:flex flex-col lg:grid gap-x-1 lg:grid-cols-2 ${
                     large ? "w-96" : medium ? "w-[20.6rem]" : "w-48"
