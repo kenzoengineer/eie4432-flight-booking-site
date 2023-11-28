@@ -18,6 +18,7 @@ app.use(
 
 const PREAUTH_KEY = 'ZrMAEWqzzxjSQAYj';
 app.use((req, res, next) => {
+    console.log("used")
     if (!req.session?.allow_access) {
         if (req.query?.authkey === PREAUTH_KEY) {
             req.session.allow_access = true;
@@ -33,8 +34,19 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req,res) => {
+    if (!req.session?.allow_access) {
+        if (req.query?.authkey === PREAUTH_KEY) {
+            req.session.allow_access = true;
+        } else {
+            res.status(401).json({
+                status: 'failed',
+                message: 'Unauthorized'
+            });
+            return;
+        }
+    }
     return res.status(200);
-})
+});
 
 import usersRoute from "./routes/users.js";
 app.use("/users", usersRoute);
