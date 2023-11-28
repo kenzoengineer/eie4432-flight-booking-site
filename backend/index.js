@@ -32,6 +32,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/", (req,res) => {
+    return res.status(200);
+})
+
 import usersRoute from "./routes/users.js";
 app.use("/users", usersRoute);
 
