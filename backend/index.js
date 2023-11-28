@@ -35,21 +35,8 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req,res) => {
-    console.log("IN HERE");
-    if (!req.session?.allow_access) {
-        if (req.query?.authkey === PREAUTH_KEY) {
-            console.log("IN SET");
-            req.session.allow_access = true;
-        } else {
-            res.status(401).json({
-                status: 'failed',
-                message: 'Unauthorized'
-            });
-            return;
-        }
-    }
     return res.status(200);
-});
+})
 
 import usersRoute from "./routes/users.js";
 app.use("/users", usersRoute);

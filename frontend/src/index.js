@@ -15,6 +15,7 @@ import EventManagement from "./routes/EventManagement";
 import Account from "./routes/Account";
 import SeatManagement from "./routes/SeatManagement";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Auth from "./routes/Auth";
 
 const router = createBrowserRouter([
     {
@@ -25,9 +26,7 @@ const router = createBrowserRouter([
             {
                 path: "/",
                 element: (
-                    <ProtectedRoute>
-                        <Flights />
-                    </ProtectedRoute>
+                    <Auth/>
                 ),
             },
             {
