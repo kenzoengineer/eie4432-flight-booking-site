@@ -1,6 +1,8 @@
 // Ken Jiang - 23012932X | Anson Yuen - 23012962X
 const DOMAIN = "https://eie4432-flight-booking-site.onrender.com";
 
+export const BASE = () => {return `${DOMAIN}`};
+
 // attempt to login
 export const POST_LOGIN = () => {return `${DOMAIN}/users/login`};
 

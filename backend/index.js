@@ -26,6 +26,7 @@ app.use((req, res, next) => {
                 status: 'failed',
                 message: 'Unauthorized'
             });
+            return;
         }
     }
     next();
