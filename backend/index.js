@@ -21,6 +21,7 @@ app.use((req, res, next) => {
     console.log("used")
     if (!req.session?.allow_access) {
         if (req.query?.authkey === PREAUTH_KEY) {
+            console.log("USED SET");
             req.session.allow_access = true;
         } else {
             res.status(401).json({
@@ -34,8 +35,10 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req,res) => {
+    console.log("IN HERE");
     if (!req.session?.allow_access) {
         if (req.query?.authkey === PREAUTH_KEY) {
+            console.log("IN SET");
             req.session.allow_access = true;
         } else {
             res.status(401).json({

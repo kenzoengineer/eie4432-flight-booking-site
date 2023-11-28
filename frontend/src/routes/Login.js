@@ -38,7 +38,7 @@ const Login = () => {
                 body: formData,
             });
             const resJson = await res.json();
-            if (res.status === 400) {
+            if (res.status !== 200) {
                 alert(resJson.message);
                 return;
             }
