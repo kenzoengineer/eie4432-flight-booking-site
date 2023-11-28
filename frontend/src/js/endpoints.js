@@ -1,5 +1,7 @@
 // Ken Jiang - 23012932X | Anson Yuen - 23012962X
-const DOMAIN = "https://eie4432-flight-booking-site.onrender.com";
+//const DOMAIN = "https://eie4432-flight-booking-site.onrender.com";
+
+const DOMAIN = "http://127.0.0.1:8080"
 
 const queryParams = () => {
     const urlParams = new URLSearchParams(window.location.search);

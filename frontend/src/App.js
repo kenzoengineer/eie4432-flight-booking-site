@@ -3,7 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const CONTENT_ONLY = new Set(["/login", "/signup", "/forgot"]);
+const CONTENT_ONLY = new Set(["/", "/login", "/signup", "/forgot"]);
 
 function App() {
     return (

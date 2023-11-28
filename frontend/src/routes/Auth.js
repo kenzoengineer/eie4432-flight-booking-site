@@ -8,10 +8,12 @@ const Auth = () => {
     useEffect(() => {
         const auth = async() => {
             const res = await fetch(BASE());
+            const resJson = await res.json();
+            console.log(resJson);
             if (res.status === 200) {
                 navigate("/login");
             } else {
-                setMessage((await res.json()).message);
+                setMessage(resJson.message);
             }
         }
         auth();

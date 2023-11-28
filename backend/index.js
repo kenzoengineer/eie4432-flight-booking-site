@@ -18,11 +18,12 @@ app.use(
 
 const PREAUTH_KEY = 'ZrMAEWqzzxjSQAYj';
 app.use((req, res, next) => {
-    console.log("used")
+    console.log(req.session.allow_access);
     if (!req.session?.allow_access) {
         if (req.query?.authkey === PREAUTH_KEY) {
             console.log("USED SET");
             req.session.allow_access = true;
+            console.log(req.session.allow_access);
         } else {
             res.status(401).json({
                 status: 'failed',
