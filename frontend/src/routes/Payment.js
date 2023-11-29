@@ -80,11 +80,12 @@ const Payment = () => {
                 const resJson = await res.json();
                 if (res.status === 400) {
                     console.error(resJson.message);
+                } else {
+                    setUser(resJson);
                 }
             } catch (err) {
                 console.error(err);
             }
-            setUser();
         };
 
         fetchFlightData();
