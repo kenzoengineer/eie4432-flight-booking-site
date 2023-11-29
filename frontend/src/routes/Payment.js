@@ -166,8 +166,8 @@ const Payment = () => {
                 </Form>
                 <div className={`mt-5 ${paid ? "h-96" : "h-0 opacity-0"} overflow-hidden transition-all`}>
                     <Ticket
-                        dest={flightData.flight.dest}
-                        name={user.username}
+                        dest={flightData?.flight?.dest ?? ""}
+                        name={user?.username ?? ""}
                         date={new Date(flightData.flight.date).toLocaleDateString("cn-HK", DATE_OPTIONS)}
                         time={new Date(flightData.flight.date).toLocaleTimeString("cn-HK", TIME_OPTIONS)}
                         seat={seatLabelFromIndex(flightData.flight.sections * flightData.flight.columns_per_section, seatidx)}
