@@ -16,7 +16,6 @@ const SeatMapEditor = ({flightData, seatData}) => {
     const navigate = useNavigate();
 
     const toggleFirstClass = (idx) => {
-        console.log("Changing ", idx);
         let newSeats = [...seats];
         newSeats[idx].first_class = !newSeats[idx].first_class;
         setSeats(newSeats);

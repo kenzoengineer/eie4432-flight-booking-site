@@ -135,7 +135,6 @@ const Account = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(user);
         const formData = new FormData(e.target);
         try {
             const res = await fetch(PATCH_USER(user._id), {
